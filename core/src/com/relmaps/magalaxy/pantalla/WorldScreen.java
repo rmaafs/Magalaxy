@@ -7,7 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.relmaps.magalaxy.InitGame;
@@ -31,10 +35,13 @@ public class WorldScreen extends Pantalla {
         renderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(Gdx.graphics.getWidth() / 10, Gdx.graphics.getHeight() / 10);
 
+
         BodyDef playerDef = createPlayerBodyDef();
         playerBody = world.createBody(playerDef);
+        playerBody.setUserData("player");
         BodyDef sueloDef = createSueloBodyDef();
         sueloBody = world.createBody(sueloDef);
+        sueloBody.setUserData("suelo");
 
         PolygonShape playerShape = new PolygonShape();
         playerShape.setAsBox(1, 1);
@@ -55,7 +62,7 @@ public class WorldScreen extends Pantalla {
 
     private BodyDef createPlayerBodyDef() {
         BodyDef def = new BodyDef();
-        def.position.set(0, 10);
+        def.position.set(0, 0);
         def.type = BodyDef.BodyType.DynamicBody;
         return def;
     }
@@ -75,6 +82,8 @@ public class WorldScreen extends Pantalla {
         if (Gdx.input.justTouched()){
             saltar();
         }
+
+        playerBody.setLinearVelocity(5, playerBody.getLinearVelocity().y);
 
         world.step(delta, 6, 2);
 
