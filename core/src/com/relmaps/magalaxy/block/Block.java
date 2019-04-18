@@ -1,5 +1,6 @@
 package com.relmaps.magalaxy.block;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -9,21 +10,22 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.relmaps.magalaxy.screen.Pantalla;
 
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 
 public class Block extends Actor {
+    public enum BlockType{DIRT}
+    private BlockType type;
     private Texture texture;
-    private World world;
     private Body body;
     private Fixture fixture;
-    private boolean alive = true, jumping = false;
 
-    private float tamaño = 0.25f;
+    private float size = 0.25f;
 
-    public Block(World world, Texture texture, Vector2 position){
-        this.world = world;
-        this.texture = texture;
+    public Block(BlockType type, World world, Pantalla screen, Vector2 position){
+        this.type = type;
+        texture = getTexture(screen);
 
         BodyDef def = new BodyDef();
         def.position.set(position);
@@ -31,22 +33,25 @@ public class Block extends Actor {
         body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(tamaño, tamaño);
+        shape.setAsBox(size, size);
         fixture = body.createFixture(shape, 1);
         shape.dispose();
 
-        setSize(PIXELS_IN_METER * tamaño * 2, PIXELS_IN_METER * tamaño * 2);
+        setSize(PIXELS_IN_METER * size * 2, PIXELS_IN_METER * size * 2);
+    }
+
+    private Texture getTexture(Pantalla screen){
+        switch (type){
+            case DIRT:
+                return screen.getRecurso("blocks/dirt.png");
+        }
+        return screen.getRecurso("blocks/dirt.png");
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setPosition((body.getPosition().x - tamaño) * PIXELS_IN_METER,
-                (body.getPosition().y - tamaño) * PIXELS_IN_METER);
+        setPosition((body.getPosition().x - size) * PIXELS_IN_METER,
+                (body.getPosition().y - size) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
-    }
-
-    public void detach(){
-        body.destroyFixture(fixture);
-        world.destroyBody(body);
     }
 }

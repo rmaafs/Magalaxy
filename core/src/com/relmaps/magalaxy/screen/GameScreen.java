@@ -11,43 +11,42 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.entity.PlayerEntity;
+import com.relmaps.magalaxy.world.Planet;
+
+import static java.lang.Math.pow;
 
 public class GameScreen extends Pantalla {
 
-    private boolean debugBox2d = false;
+    private boolean debugBox2d = true;
 
     private Stage stage;
     private World world;
     private Box2DDebugRenderer renderer;
     private OrthographicCamera camera;
     private PlayerEntity player;
-    //private Block block;
+    private Planet planet;
 
     public GameScreen(InitGame game) {
         super(game);
         stage = new Stage(new FitViewport(1024, 640));
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -40), true);
         stage.setDebugAll(true);
 
         if (debugBox2d){
             renderer = new Box2DDebugRenderer();
-            camera = new OrthographicCamera(Gdx.graphics.getWidth() / 80, Gdx.graphics.getHeight() / 80);
+            camera = new OrthographicCamera(1024 / 20, 640 / 20);
         }
+
+        planet = new Planet(5.97*pow(10, 24), 6371);
+        planet.generateBlocks(world, this);
     }
 
     @Override
     public void show() {
         player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5));
 
-        //block = new Block(world, getRecurso("blocks/dirt.png"), new Vector2(1.1f, 1));
         stage.addActor(player);
-        stage.addActor(new Block(world, getRecurso("blocks/dirt.png"), new Vector2(1f, 1)));
-        stage.addActor(new Block(world, getRecurso("blocks/dirt.png"), new Vector2(1.5f, 1)));
-        /*stage.addActor(new Block(world, getRecurso("blocks/dirt.png"), new Vector2(1.5f, 1)));
-        stage.addActor(new Block(world, getRecurso("blocks/dirt.png"), new Vector2(1.7f, 1)));
-        stage.addActor(new Block(world, getRecurso("blocks/dirt.png"), new Vector2(1.9f, 1)));
-        stage.addActor(new Block(world, getRecurso("blocks/dirt.png"), new Vector2(2.1f, 1)));*/
-
+        planet.showBlocks(stage);
     }
 
     @Override
@@ -72,6 +71,8 @@ public class GameScreen extends Pantalla {
         stage.draw();
 
         if (debugBox2d){
+            camera.position.x = 10;
+            camera.position.y = 15;
             camera.update();
             renderer.render(world, camera.combined);
         }

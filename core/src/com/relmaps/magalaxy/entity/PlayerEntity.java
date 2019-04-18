@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_JUMP_SPEED;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_SPEED;
+import static com.relmaps.magalaxy.entity.Constants.PLAYER_SPEED_SHIFT;
 
 public class PlayerEntity extends Actor {
     private Texture texture;
@@ -23,9 +24,9 @@ public class PlayerEntity extends Actor {
     private Fixture fixture;
     private boolean alive = true, jumping = false;
 
-    private float tamañoX = 0.5f, tamañoY = 1f;
+    private float sizeX = 0.5f, sizeY = 1f;
 
-    public PlayerEntity(World world, Texture texture, Vector2 position){
+    public PlayerEntity(World world, Texture texture, Vector2 position) {
         this.world = world;
         this.texture = texture;
 
@@ -36,32 +37,47 @@ public class PlayerEntity extends Actor {
         body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(tamañoX, tamañoY);
-        fixture = body.createFixture(shape, 3);
+        Vector2[] vec = new Vector2[7];
+
+        vec[0] = new Vector2(0f, -sizeY);
+        vec[1] = new Vector2(-0.3f, -sizeY);
+        vec[2] = new Vector2(0.3f, -sizeY);
+        vec[3] = new Vector2(-sizeX, -sizeY / 2);
+        vec[4] = new Vector2(-sizeX, sizeY);
+        vec[5] = new Vector2(sizeX, sizeY);
+        vec[6] = new Vector2(sizeX, -sizeY / 2);
+
+        //shape.setAsBox(tamañoX, tamañoY);
+        shape.set(vec);
+        fixture = body.createFixture(shape, 1);
         shape.dispose();
 
-        setSize(PIXELS_IN_METER * tamañoX * 2, PIXELS_IN_METER * tamañoY * 2);
+        setSize(PIXELS_IN_METER * sizeX * 2, PIXELS_IN_METER * sizeY * 2);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setPosition((body.getPosition().x - tamañoX) * PIXELS_IN_METER,
-                    (body.getPosition().y - tamañoY) * PIXELS_IN_METER);
+        setPosition((body.getPosition().x - sizeX) * PIXELS_IN_METER,
+                (body.getPosition().y - sizeY) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
     public void act(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
+        //System.out.println("Velocidad: " + body.getLinearVelocity().x);
+        boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            body.applyLinearImpulse(PLAYER_SPEED, 0, body.getPosition().x, body.getPosition().y, true);
+            body.setLinearVelocity(shift ? PLAYER_SPEED_SHIFT : PLAYER_SPEED, body.getLinearVelocity().y);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            body.applyLinearImpulse(-PLAYER_SPEED, 0, body.getPosition().x, body.getPosition().y, true);
+            body.setLinearVelocity(shift ? -PLAYER_SPEED_SHIFT : -PLAYER_SPEED, body.getLinearVelocity().y);
+        } else {
+            body.setLinearVelocity(body.getLinearVelocity().x / 2, body.getLinearVelocity().y);
         }
     }
 
-    public void detach(){
+    public void detach() {
         body.destroyFixture(fixture);
         world.destroyBody(body);
     }
