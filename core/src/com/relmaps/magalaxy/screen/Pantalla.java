@@ -1,14 +1,19 @@
-package com.relmaps.magalaxy.pantalla;
+package com.relmaps.magalaxy.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.relmaps.magalaxy.InitGame;
 
 public abstract class Pantalla implements Screen {
 
-    private InitGame game;
+    protected InitGame game;
 
     public Pantalla(InitGame game){
         this.game = game;
+    }
+
+    public Texture getRecurso(String path) {
+        return game.getManager().get(path);
     }
 
     @Override

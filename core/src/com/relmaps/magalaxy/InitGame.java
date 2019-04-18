@@ -1,29 +1,26 @@
 package com.relmaps.magalaxy;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.relmaps.magalaxy.pantalla.WorldScreen;
+import com.relmaps.magalaxy.screen.GameScreen;
+import com.relmaps.magalaxy.screen.WorldScreen;
 
 public class InitGame extends Game {
-    SpriteBatch batch;
-    Texture img;
+
+    private AssetManager manager;
 
     @Override
     public void create() {
-    //  batch = new SpriteBatch();
-        //img = new Texture("player/man.png");
-        setScreen(new WorldScreen(this));
+        manager = new AssetManager();
+        manager.load("player/man.png", Texture.class);
+        manager.load("blocks/dirt.png", Texture.class);
+        manager.finishLoading();
+        setScreen(new GameScreen(this));
     }
 
-    /*@Override
-    public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(img, 0, 0);
-        batch.end();
-    }*/
+    public AssetManager getManager() {
+        return manager;
+    }
 }
