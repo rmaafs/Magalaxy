@@ -13,6 +13,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
+import static com.relmaps.magalaxy.entity.Constants.PLAYER_JUMP_SPEED;
+import static com.relmaps.magalaxy.entity.Constants.PLAYER_SPEED;
 
 public class PlayerEntity extends Actor {
     private Texture texture;
@@ -51,11 +53,11 @@ public class PlayerEntity extends Actor {
     @Override
     public void act(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
-            body.applyLinearImpulse(0, 20, body.getPosition().x, body.getPosition().y, true);
+            body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            body.applyLinearImpulse(1f, 0, body.getPosition().x, body.getPosition().y, true);
+            body.applyLinearImpulse(PLAYER_SPEED, 0, body.getPosition().x, body.getPosition().y, true);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            body.applyLinearImpulse(-1f, 0, body.getPosition().x, body.getPosition().y, true);
+            body.applyLinearImpulse(-PLAYER_SPEED, 0, body.getPosition().x, body.getPosition().y, true);
         }
     }
 

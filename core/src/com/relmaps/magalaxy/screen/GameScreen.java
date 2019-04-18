@@ -14,6 +14,8 @@ import com.relmaps.magalaxy.entity.PlayerEntity;
 
 public class GameScreen extends Pantalla {
 
+    private boolean debugBox2d = false;
+
     private Stage stage;
     private World world;
     private Box2DDebugRenderer renderer;
@@ -27,8 +29,10 @@ public class GameScreen extends Pantalla {
         world = new World(new Vector2(0, -10), true);
         stage.setDebugAll(true);
 
-        renderer = new Box2DDebugRenderer();
-        camera = new OrthographicCamera(Gdx.graphics.getWidth() / 80, Gdx.graphics.getHeight() / 80);
+        if (debugBox2d){
+            renderer = new Box2DDebugRenderer();
+            camera = new OrthographicCamera(Gdx.graphics.getWidth() / 80, Gdx.graphics.getHeight() / 80);
+        }
     }
 
     @Override
@@ -59,17 +63,24 @@ public class GameScreen extends Pantalla {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        stage.getCamera().position.x = player.getX();
+        stage.getCamera().position.y = player.getY();
+        stage.getCamera().update();
+
         stage.act();
         world.step(delta, 6, 2);
         stage.draw();
-        camera.update();
-        renderer.render(world, camera.combined);
+
+        if (debugBox2d){
+            camera.update();
+            renderer.render(world, camera.combined);
+        }
     }
 
     @Override
     public void dispose() {
         stage.dispose();
         world.dispose();
-        renderer.dispose();
+        if (debugBox2d) renderer.dispose();
     }
 }
