@@ -12,6 +12,7 @@ import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.entity.PlayerEntity;
 import com.relmaps.magalaxy.world.Planet;
+import com.relmaps.magalaxy.world.PlanetGenerator;
 
 import static java.lang.Math.pow;
 
@@ -26,19 +27,20 @@ public class GameScreen extends Pantalla {
     private PlayerEntity player;
     private Planet planet;
 
+    private int zoom = 2;
+
     public GameScreen(InitGame game) {
         super(game);
-        stage = new Stage(new FitViewport(1024, 640));
+        stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
         world = new World(new Vector2(0, -40), true);
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
 
         if (debugBox2d){
             renderer = new Box2DDebugRenderer();
             camera = new OrthographicCamera(1024 / 20, 640 / 20);
         }
 
-        planet = new Planet(5.97*pow(10, 24), 6371);
-        planet.generateBlocks(world, this);
+        planet = new PlanetGenerator(5.97*pow(10, 24), 6371).generateBlocks(world, this);
     }
 
     @Override

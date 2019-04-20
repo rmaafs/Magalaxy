@@ -16,6 +16,7 @@ public class InitGame extends Game {
         manager = new AssetManager();
         manager.load("player/man.png", Texture.class);
         manager.load("blocks/dirt.png", Texture.class);
+        manager.load("blocks/grass.png", Texture.class);
         manager.finishLoading();
         setScreen(new GameScreen(this));
     }
