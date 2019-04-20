@@ -1,6 +1,5 @@
 package com.relmaps.magalaxy.block;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +14,6 @@ import com.relmaps.magalaxy.screen.Pantalla;
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 
 public class Block extends Actor {
-    public enum BlockType{DIRT}
     private BlockType type;
     private Texture texture;
     private Body body;
