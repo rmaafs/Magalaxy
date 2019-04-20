@@ -12,9 +12,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.relmaps.magalaxy.entity.Constants;
+import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
 
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
+import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY;
 
 public class Block extends Actor {
     private BlockType type;
@@ -42,6 +44,7 @@ public class Block extends Actor {
         shape.dispose();
 
         setSize(PIXELS_IN_METER * size * 2, PIXELS_IN_METER * size * 2);
+        setPosition((body.getPosition().x - size) * PIXELS_IN_METER,(body.getPosition().y - size) * PIXELS_IN_METER);
     }
 
     private void disableColission(){
@@ -102,10 +105,11 @@ public class Block extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setPosition((body.getPosition().x - size) * PIXELS_IN_METER,(body.getPosition().y - size) * PIXELS_IN_METER);
-        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
-        if (regionSobre != null){
-            batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
+        if (getX() > GameScreen.player.getX() - (PLAYER_VISIBILITY + 1) * PIXELS_IN_METER && getX() < GameScreen.player.getX() + PLAYER_VISIBILITY * PIXELS_IN_METER) {
+            batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+            if (regionSobre != null) {
+                batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
+            }
         }
     }
 }

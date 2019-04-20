@@ -18,14 +18,16 @@ import static java.lang.Math.pow;
 
 public class GameScreen extends Pantalla {
 
-    private boolean debugBox2d = true;
+    private boolean debugBox2d = false;
 
     private Stage stage;
     private World world;
     private Box2DDebugRenderer renderer;
     private OrthographicCamera camera;
-    private PlayerEntity player;
+    public static PlayerEntity player;
     private Planet planet;
+
+    private FrameRate rate;
 
     private int zoom = 2;
 
@@ -41,6 +43,7 @@ public class GameScreen extends Pantalla {
         }
 
         planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this);
+        rate = new FrameRate();
     }
 
     @Override
@@ -70,7 +73,11 @@ public class GameScreen extends Pantalla {
 
         stage.act();
         world.step(delta, 6, 2);
+        //System.out.println("Delta: " + delta);
         stage.draw();
+
+        rate.render();
+        rate.update();
 
         if (debugBox2d) {
             camera.position.x = 10;
