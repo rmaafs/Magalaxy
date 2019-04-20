@@ -16,7 +16,8 @@ import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
 
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
-import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY;
+import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_X;
+import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_Y;
 
 public class Block extends Actor {
     private BlockType type;
@@ -105,7 +106,8 @@ public class Block extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (getX() > GameScreen.player.getX() - (PLAYER_VISIBILITY + 1) * PIXELS_IN_METER && getX() < GameScreen.player.getX() + PLAYER_VISIBILITY * PIXELS_IN_METER) {
+        if ((getX() > GameScreen.player.getX() - (PLAYER_VISIBILITY_X + 1) * PIXELS_IN_METER && getX() < GameScreen.player.getX() + PLAYER_VISIBILITY_X * PIXELS_IN_METER)
+                 && (getY() > GameScreen.player.getY() - (PLAYER_VISIBILITY_Y + 1) * PIXELS_IN_METER && getY() < GameScreen.player.getY() + PLAYER_VISIBILITY_Y * PIXELS_IN_METER)) {
             batch.draw(texture, getX(), getY(), getWidth(), getHeight());
             if (regionSobre != null) {
                 batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);

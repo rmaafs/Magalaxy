@@ -32,4 +32,8 @@ public class Planet {
             stage.addActor(block);
         }
     }
+
+    public float getGravity() {
+        return gravity;
+    }
 }

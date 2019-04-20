@@ -7,7 +7,8 @@ public class Constants {
     public static final float PLAYER_SPEED = 5f;
     public static final float PLAYER_JUMP_SPEED = 30f;
     public static final float PLAYER_SPEED_SHIFT = 2f;
-    public static final int PLAYER_VISIBILITY = 16;
+    public static final int PLAYER_VISIBILITY_X = 16;
+    public static final int PLAYER_VISIBILITY_Y = 10;
 
     public static int getRand(int min, int max){
         return new Random().nextInt((max - min) + 1) + min;

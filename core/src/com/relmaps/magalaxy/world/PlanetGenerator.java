@@ -16,6 +16,8 @@ public class PlanetGenerator extends Planet {
     private int coordX = 0, coordY;
     private float y, lastY = 0;
 
+    private int BLOCKS_DEPTH = 50;
+
     public Planet generateBlocks(World world, Pantalla screen) {
 
 
@@ -43,7 +45,7 @@ public class PlanetGenerator extends Planet {
                 d += 0.5f;
                 continue;
             }
-            for (coordY = 0; coordY < 10; coordY++) {
+            for (coordY = 0; coordY < BLOCKS_DEPTH; coordY++) {
                 if (coordY == 0) {
                     type = BlockType.DIRT_GRASS;
                 } else if (coordY > 5) {
@@ -65,7 +67,7 @@ public class PlanetGenerator extends Planet {
             }
             lastY = y;
         }
-        System.out.println("1 LastY=" + lastY + ", y=" + y);
+        //System.out.println("1 LastY=" + lastY + ", y=" + y);
     }
 
     private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {

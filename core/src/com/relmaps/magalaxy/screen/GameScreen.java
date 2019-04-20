@@ -35,6 +35,7 @@ public class GameScreen extends Pantalla {
         super(game);
         stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
         world = new World(new Vector2(0, -40), true);
+        rate = new FrameRate();
         stage.setDebugAll(false);
 
         if (debugBox2d) {
@@ -43,7 +44,8 @@ public class GameScreen extends Pantalla {
         }
 
         planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this);
-        rate = new FrameRate();
+        //planet = new PlanetGenerator(7.349 * pow(10, 22), 1737).generateBlocks(world, this);
+        world.setGravity(new Vector2(0, -planet.getGravity() * 4));
     }
 
     @Override
