@@ -12,17 +12,58 @@ public class PlanetGenerator extends Planet {
         super(masa, radio);
     }
 
+    private int coordX = 0, coordY;
+    private float y, lastY = 0;
+
     public Planet generateBlocks(World world, Pantalla screen) {
-        float y, a = 0.5f, b = 0.2f, d = 1.5f;
 
-        for (int coordX = 0; coordX < 50; coordX++) {
+        generarFormula(5f, 0.05f, 0f, 1, world, screen);
+        generarFormula(9f, 0.1f, 0f, 1, world, screen);
+        generarFormula(2f, 0.2f, 0f, 3, world, screen);
+
+        return this;
+    }
+
+    private void generarFormula(float a, float b, float d, int repeticionesCoord0, World world, Pantalla screen){
+        BlockType type;
+        for (int reps = 0; true; coordX++) {
             y = new Float(Math.round(a * Math.sin(b * (coordX + d)) * 2) / 2.0);
-
-            for (int coordY = 0; coordY < 20; coordY++) {
-                BlockType type = BlockType.DIRT;
+            if (reps == 0 && y != 0.0f){
+                coordX--;
+                d += 0.5f;
+                continue;
+            }
+            for (coordY = 0; coordY < 10; coordY++) {
                 if (coordY == 0) {
                     type = BlockType.DIRT_GRASS;
-                } else if (coordY > 11){
+                } else if (coordY > 5) {
+                    type = BlockType.COBBLESTONE;
+                } else {
+                    type = BlockType.DIRT;
+                }
+                addBlock(type, coordX, coordY, coordX * 0.5f, y - (coordY * 0.5f), world, screen);
+            }
+
+            if (y == 0.0f){
+                if (reps == 0 || y != lastY) {reps++;}
+                if (reps > repeticionesCoord0){
+                    lastY = y;
+                    break;
+                }
+            }
+            lastY = y;
+        }
+        System.out.println("1 LastY=" + lastY + ", y="+y);
+    }
+
+    private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {
+        Block b = new Block(type, world, screen, new Vector2(x, y));
+        blocks.add(b);
+        blocksPositions.put(new Vector2(coordX, coordY), b);
+        //System.out.println("Bloque puesto en " + coordX + ", " + coordY);
+    }
+
+    /* else if (coordY > 11){
                     type = BlockType.GRAVEL;
                 } else if (coordY > 10){
                     type = BlockType.RUBY_ORE;
@@ -38,22 +79,5 @@ public class PlanetGenerator extends Planet {
                     type = BlockType.COPPER_ORE;
                 } else if (coordY > 4){
                     type = BlockType.COAL_ORE;
-                } else if (coordY > 3){
-                    type = BlockType.COBBLESTONE;
-                }
-
-
-                addBlock(type, coordX, coordY, coordX * 0.5f, y - (coordY * 0.5f), world, screen);
-            }
-        }
-
-        return this;
-    }
-
-    private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {
-        Block b = new Block(type, world, screen, new Vector2(x, y));
-        blocks.add(b);
-        blocksPositions.put(new Vector2(coordX, coordY), b);
-        //System.out.println("Bloque puesto en " + coordX + ", " + coordY);
-    }
+                } else if (coordY > 3){*/
 }
