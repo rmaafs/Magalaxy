@@ -18,8 +18,9 @@ import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 
 public class Block extends Actor {
     private BlockType type;
-    private Texture texture;
+    private TextureRegion texture;
     private TextureRegion regionSobre = null;
+    private int regionHeightSize = 1;
     private Body body;
     private Fixture fixture;
 
@@ -51,17 +52,52 @@ public class Block extends Actor {
         fixture.setFilterData(boxBreakFilter);
     }
 
-    private Texture getTexture(Pantalla screen){
+    private TextureRegion getTexture(Pantalla screen){
+        int r4 = Constants.getRand(0, 4), r;
+        int r7 = Constants.getRand(0, 7);
+
+        if (isMineral()){
+            switch (type){
+                case COAL_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/coal_ore.png"), r7 * 8, 0, 8, 8);break;
+                case COPPER_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/copper_ore.png"), r7 * 8, 0, 8, 8);break;
+                case IRON_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/iron_ore.png"), r7 * 8, 0, 8, 8);break;
+                case GOLD_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/gold_ore.png"), r7 * 8, 0, 8, 8);break;
+                case DIAMOND_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/diamond_ore.png"), r7 * 8, 0, 8, 8);break;
+                case EMERALD_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/emerald_ore.png"), r7 * 8, 0, 8, 8);break;
+                case RUBY_ORE:
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/ruby_ore.png"), r7 * 8, 0, 8, 8);break;
+            }
+            return new TextureRegion(screen.getRecurso("blocks/cobblestone.png"), r4 * 8, 0, 8, 8);
+        }
+
         switch (type){
             case DIRT:
-                return screen.getRecurso("blocks/dirt.png");
+                return new TextureRegion(screen.getRecurso("blocks/dirt.png"), r4 * 8, 0, 8, 8);
             case DIRT_GRASS:
-                int r = Constants.getRand(0, 4);
-                System.out.println("Random: " + r);
+                r = Constants.getRand(0, 4);
                 regionSobre = new TextureRegion(screen.getRecurso("blocks/grass.png"), r * 8, 0, 8, 16);
-                return screen.getRecurso("blocks/dirt.png");
+                regionHeightSize = 2;
+                return new TextureRegion(screen.getRecurso("blocks/dirt.png"), r4 * 8, 0, 8, 8);
+            case COBBLESTONE:
+                return new TextureRegion(screen.getRecurso("blocks/cobblestone.png"), r4 * 8, 0, 8, 8);
+            case GRAVEL:
+                return new TextureRegion(screen.getRecurso("blocks/gravel.png"), r4 * 8, 0, 8, 8);
+            default:
+                return new TextureRegion(screen.getRecurso("blocks/dirt.png"), r4 * 8, 0, 8, 8);
         }
-        return screen.getRecurso("blocks/dirt.png");
+    }
+
+    public boolean isMineral(){
+        return type == BlockType.COAL_ORE || type == BlockType.COPPER_ORE
+                || type == BlockType.IRON_ORE || type == BlockType.GOLD_ORE
+                || type == BlockType.DIAMOND_ORE || type == BlockType.EMERALD_ORE
+                || type == BlockType.RUBY_ORE;
     }
 
     @Override
@@ -69,7 +105,7 @@ public class Block extends Actor {
         setPosition((body.getPosition().x - size) * PIXELS_IN_METER,(body.getPosition().y - size) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
         if (regionSobre != null){
-            batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * 2);
+            batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
         }
     }
 }

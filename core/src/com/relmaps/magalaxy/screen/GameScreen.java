@@ -35,12 +35,12 @@ public class GameScreen extends Pantalla {
         world = new World(new Vector2(0, -40), true);
         stage.setDebugAll(false);
 
-        if (debugBox2d){
+        if (debugBox2d) {
             renderer = new Box2DDebugRenderer();
             camera = new OrthographicCamera(1024 / 20, 640 / 20);
         }
 
-        planet = new PlanetGenerator(5.97*pow(10, 24), 6371).generateBlocks(world, this);
+        planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class GameScreen extends Pantalla {
         world.step(delta, 6, 2);
         stage.draw();
 
-        if (debugBox2d){
+        if (debugBox2d) {
             camera.position.x = 10;
             camera.position.y = 15;
             camera.update();
