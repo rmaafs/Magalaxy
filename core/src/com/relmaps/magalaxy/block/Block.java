@@ -114,4 +114,13 @@ public class Block extends Actor {
             }
         }
     }
+
+    /*if (!body.isActive()){
+                body.setActive(true);
+            }*/
+    /* else {
+            if (body.isActive()){
+                body.setActive(false);
+            }
+        }*/
 }

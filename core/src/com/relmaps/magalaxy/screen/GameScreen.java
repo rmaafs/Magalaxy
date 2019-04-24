@@ -35,7 +35,7 @@ public class GameScreen extends Pantalla {
         super(game);
         stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
         world = new World(new Vector2(0, -40), true);
-        rate = new FrameRate();
+        rate = new FrameRate(world);
         stage.setDebugAll(false);
 
         if (debugBox2d) {
@@ -74,12 +74,14 @@ public class GameScreen extends Pantalla {
         stage.getCamera().update();
 
         stage.act();
-        world.step(delta, 6, 2);
+        world.step(delta, 8, 3);
         //System.out.println("Delta: " + delta);
         stage.draw();
 
         rate.render();
         rate.update();
+
+
 
         if (debugBox2d) {
             camera.position.x = 10;
