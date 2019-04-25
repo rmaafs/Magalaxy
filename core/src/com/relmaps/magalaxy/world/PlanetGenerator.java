@@ -2,6 +2,7 @@ package com.relmaps.magalaxy.world;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.block.BlockType;
 import com.relmaps.magalaxy.entity.Constants;
@@ -18,10 +19,10 @@ public class PlanetGenerator extends Planet {
 
     private int BLOCKS_DEPTH = 50;
 
-    public Planet generateBlocks(World world, Pantalla screen) {
+    public Planet generateBlocks(World world, Pantalla screen, Stage stage) {
+        this.stage = stage;
 
-
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             float a = Constants.getRandFloat(1f, 10f);
             float b = Constants.getRandFloat(0.01f, 0.5f);
             //int repeticiones = Constants.getRand(1, 10);
@@ -72,9 +73,9 @@ public class PlanetGenerator extends Planet {
 
     private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {
         //if (coordX % 80 == 0) type = BlockType.GRAVEL;
-        Block b = new Block(type, world, screen, new Vector2(x, y));
+        Block b = new Block(type, world, screen, new Vector2(x, y), stage);
         blocks.add(b);
-        //blocksPositions.put(new Vector2(coordX, coordY), b);
+        blocksPositions.put(coordX + "," + coordY, b);
         //System.out.println("Bloque puesto en " + coordX + ", " + coordY);
     }
 }

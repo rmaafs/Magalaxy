@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relmaps.magalaxy.InitGame;
@@ -35,7 +36,7 @@ public class GameScreen extends Pantalla {
         super(game);
         stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
         world = new World(new Vector2(0, -40), true);
-        rate = new FrameRate(world);
+        rate = new FrameRate(world, stage);
         stage.setDebugAll(false);
 
         if (debugBox2d) {
@@ -43,7 +44,7 @@ public class GameScreen extends Pantalla {
             camera = new OrthographicCamera(1024 / 20, 640 / 20);
         }
 
-        planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this);
+        planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
         //planet = new PlanetGenerator(7.349 * pow(10, 22), 1737).generateBlocks(world, this);
         world.setGravity(new Vector2(0, -planet.getGravity() * 4));
     }
@@ -75,8 +76,9 @@ public class GameScreen extends Pantalla {
 
         stage.act();
         world.step(delta, 8, 3);
-        //System.out.println("Delta: " + delta);
         stage.draw();
+
+        planet.limpiarActores();
 
         rate.render();
         rate.update();

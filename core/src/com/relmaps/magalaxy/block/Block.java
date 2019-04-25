@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
@@ -26,26 +28,44 @@ public class Block extends Actor {
     private int regionHeightSize = 1;
     private Body body;
     private Fixture fixture;
+    private World world;
+    private BodyDef def;
+    private PolygonShape shape;
+
+    private Stage stage;
 
     private float size = 0.25f;
 
-    public Block(BlockType type, World world, Pantalla screen, Vector2 position){
+    public Block(BlockType type, World world, Pantalla screen, Vector2 position, Stage stage){
         this.type = type;
         texture = getTexture(screen);
+        this.world = world;
+        this.stage = stage;
 
-        BodyDef def = new BodyDef();
+        def = new BodyDef();
         def.position.set(position);
         def.type = BodyDef.BodyType.StaticBody;
-        body = world.createBody(def);
 
-        PolygonShape shape = new PolygonShape();
+        shape = new PolygonShape();
         shape.setAsBox(size, size);
-        fixture = body.createFixture(shape, 1);
 
-        shape.dispose();
-
+        activar();
         setSize(PIXELS_IN_METER * size * 2, PIXELS_IN_METER * size * 2);
         setPosition((body.getPosition().x - size) * PIXELS_IN_METER,(body.getPosition().y - size) * PIXELS_IN_METER);
+    }
+
+    public void activar(){
+        body = world.createBody(def);
+        fixture = body.createFixture(shape, 1);
+        stage.addActor(this);
+        this.setVisible(true);
+    }
+
+    public void desactivar(){
+        body.destroyFixture(fixture);
+        world.destroyBody(body);
+        this.remove();
+        this.setVisible(false);
     }
 
     private void disableColission(){
@@ -104,23 +124,30 @@ public class Block extends Actor {
                 || type == BlockType.RUBY_ORE;
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if ((getX() > GameScreen.player.getX() - (PLAYER_VISIBILITY_X + 1) * PIXELS_IN_METER && getX() < GameScreen.player.getX() + PLAYER_VISIBILITY_X * PIXELS_IN_METER)
-                 && (getY() > GameScreen.player.getY() - (PLAYER_VISIBILITY_Y + 1) * PIXELS_IN_METER && getY() < GameScreen.player.getY() + PLAYER_VISIBILITY_Y * PIXELS_IN_METER)) {
-            batch.draw(texture, getX(), getY(), getWidth(), getHeight());
-            if (regionSobre != null) {
-                batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
+    public boolean estaEnRangoDeVision(){
+        return (getX() > GameScreen.player.getX() - (PLAYER_VISIBILITY_X + 1) * PIXELS_IN_METER && getX() < GameScreen.player.getX() + PLAYER_VISIBILITY_X * PIXELS_IN_METER)
+                && (getY() > GameScreen.player.getY() - (PLAYER_VISIBILITY_Y + 1) * PIXELS_IN_METER && getY() < GameScreen.player.getY() + PLAYER_VISIBILITY_Y * PIXELS_IN_METER);
+    }
+
+    public void refresh(){
+        if (estaEnRangoDeVision()){
+            if (!isAlive()){
+                activar();
             }
+        } else if (isAlive()){
+            desactivar();
         }
     }
 
-    /*if (!body.isActive()){
-                body.setActive(true);
-            }*/
-    /* else {
-            if (body.isActive()){
-                body.setActive(false);
-            }
-        }*/
+    public boolean isAlive() {
+        return this.isVisible();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+        if (regionSobre != null) {
+            batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
+        }
+    }
 }

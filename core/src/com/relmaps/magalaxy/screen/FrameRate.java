@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -16,10 +17,12 @@ public class FrameRate implements Disposable {
     private SpriteBatch batch;
     private OrthographicCamera cam;
     private World world;
+    private Stage stage;
 
 
-    public FrameRate(World w) {
+    public FrameRate(World w, Stage stage) {
         world = w;
+        this.stage = stage;
         lastTimeCounted = TimeUtils.millis();
         sinceChange = 0;
         frameRate = Gdx.graphics.getFramesPerSecond();
@@ -48,7 +51,11 @@ public class FrameRate implements Disposable {
 
     public void render() {
         batch.begin();
-        font.draw(batch, (int)frameRate + " FPS\nJavaHeap: " +  (Gdx.app.getJavaHeap() / 1024 / 1024 ) + " MB\nNativeHeap: " + (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\nBodys: " + world.getBodyCount(), 3, Gdx.graphics.getHeight() - 3);
+        font.draw(batch, (int)frameRate + " FPS\nJavaHeap: " +
+                (Gdx.app.getJavaHeap() / 1024 / 1024 ) + " MB\nNativeHeap: " +
+                (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\nBodys: " +
+                world.getBodyCount() + "\nActores: " +
+                stage.getActors().size, 3, Gdx.graphics.getHeight() - 3);
         batch.end();
     }
 
