@@ -1,16 +1,9 @@
 package com.relmaps.magalaxy.world;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.relmaps.magalaxy.block.Block;
-import com.relmaps.magalaxy.block.BlockType;
-import com.relmaps.magalaxy.screen.Pantalla;
+import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +17,7 @@ public class Planet {
     private float gravity;
 
     protected Stage stage;
+    protected GrassPaisaje paisaje;
 
     public Planet(double masa, double radio) {
         double G = 6.67 * pow(10, -11);
@@ -42,6 +36,10 @@ public class Planet {
         for (Block block : blocks) {
             block.refresh();
         }
+    }
+
+    public void dibujarPaisaje(float x, float y){
+        paisaje.draw(stage.getBatch(), x, y);
     }
 
     public float getGravity() {

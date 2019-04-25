@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.block.BlockType;
 import com.relmaps.magalaxy.entity.Constants;
+import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 import com.relmaps.magalaxy.screen.Pantalla;
 
 public class PlanetGenerator extends Planet {
@@ -21,6 +22,7 @@ public class PlanetGenerator extends Planet {
 
     public Planet generateBlocks(World world, Pantalla screen, Stage stage) {
         this.stage = stage;
+        paisaje = new GrassPaisaje(screen);
 
         for (int i = 0; i < 20; i++) {
             float a = Constants.getRandFloat(1f, 10f);

@@ -1,6 +1,7 @@
 package com.relmaps.magalaxy.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -83,6 +84,7 @@ public class GameScreen extends Pantalla {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        checkTeclas();
 
 
         stage.getCamera().update();
@@ -93,6 +95,7 @@ public class GameScreen extends Pantalla {
         rayHandler.setCombinedMatrix(stage.getCamera().combined.cpy().scale(Constants.PIXELS_IN_METER, Constants.PIXELS_IN_METER, 1f));
 
 
+        planet.dibujarPaisaje(player.getX(), player.getY());
         stage.act();
         world.step(delta, 8, 3);
         stage.draw();
@@ -107,6 +110,14 @@ public class GameScreen extends Pantalla {
             camera.position.y = 15;
             camera.update();
             renderer.render(world, camera.combined);
+        }
+    }
+
+    private void checkTeclas(){
+        if (Gdx.input.isKeyPressed(Input.Keys.O)){
+            light.setDistance(light.getDistance() - 1);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.P)){
+            light.setDistance(light.getDistance() + 1);
         }
     }
 

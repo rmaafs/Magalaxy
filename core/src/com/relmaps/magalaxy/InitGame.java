@@ -28,6 +28,11 @@ public class InitGame extends Game {
         manager.load("blocks/minerals/emerald_ore.png", Texture.class);
         manager.load("blocks/minerals/ruby_ore.png", Texture.class);
 
+        manager.load("paisajes/grass/below1.png", Texture.class);
+        manager.load("paisajes/grass/below2.png", Texture.class);
+        manager.load("paisajes/grass/below3.png", Texture.class);
+        manager.load("paisajes/grass/far.png", Texture.class);
+
         manager.finishLoading();
         setScreen(new GameScreen(this));
     }
