@@ -50,6 +50,7 @@ public class Block extends Actor {
         shape.setAsBox(size, size);
 
         activar();
+
         setSize(PIXELS_IN_METER * size * 2, PIXELS_IN_METER * size * 2);
         setPosition((body.getPosition().x - size) * PIXELS_IN_METER,(body.getPosition().y - size) * PIXELS_IN_METER);
     }
@@ -57,6 +58,7 @@ public class Block extends Actor {
     public void activar(){
         body = world.createBody(def);
         fixture = body.createFixture(shape, 1);
+        enableLightShadow();
         stage.addActor(this);
         this.setVisible(true);
     }
@@ -66,6 +68,12 @@ public class Block extends Actor {
         world.destroyBody(body);
         this.remove();
         this.setVisible(false);
+    }
+
+    private void enableLightShadow(){
+        Filter boxBreakFilter = new Filter();
+        boxBreakFilter.categoryBits = 32;
+        fixture.setFilterData(boxBreakFilter);
     }
 
     private void disableColission(){

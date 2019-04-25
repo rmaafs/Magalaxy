@@ -1,5 +1,6 @@
 package com.relmaps.magalaxy.world;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -27,7 +28,7 @@ public class Planet {
     public Planet(double masa, double radio) {
         double G = 6.67 * pow(10, -11);
         radio = radio * 1000;
-        gravity = new Float(G * (masa / pow(radio, 2)));
+        gravity = Float.valueOf((float) (G * (masa / pow(radio, 2))));
         System.out.println("Mundo creado: G=" + G + ", radio=" + radio + ", Gravedad:  " + gravity);
     }
 
