@@ -25,6 +25,7 @@ import static java.lang.Math.pow;
 public class GameScreen extends Pantalla {
 
     private boolean debugBox2d = false;
+    private boolean lights = true;
 
     private Stage stage;
     private World world;
@@ -53,24 +54,23 @@ public class GameScreen extends Pantalla {
         }
 
         planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
-        //planet = new PlanetGenerator(7.349 * pow(10, 22), 1737).generateBlocks(world, this);
         world.setGravity(new Vector2(0, -planet.getGravity() * 4));
 
-        rayHandler = new RayHandler(world);
-        Light.setContactFilter((short) 32, (short) 32, (short) 32);
+        if (lights){
+            rayHandler = new RayHandler(world);
+            Light.setContactFilter((short) 32, (short) 32, (short) 32);
 
-        light = new PointLight(rayHandler, 5000, Color.BLACK, 5000, 400 * Constants.PIXELS_IN_METER, 150 * Constants.PIXELS_IN_METER);
-        light.setSoftnessLength(10f);
-
-
+            light = new PointLight(rayHandler, 5000, Color.BLACK, 5000, 400 * Constants.PIXELS_IN_METER, 150 * Constants.PIXELS_IN_METER);
+            light.setSoftnessLength(10f);
+        }
     }
 
     @Override
     public void show() {
         player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5));
         stage.addActor(player);
-        light.attachToBody(player.getBody(), 0f, 50f);
         planet.showBlocks(stage);
+        if (lights) light.attachToBody(player.getBody(), 0f, 50f);
     }
 
     @Override
@@ -92,17 +92,20 @@ public class GameScreen extends Pantalla {
 
         stage.getCamera().position.x = player.getX();
         stage.getCamera().position.y = player.getY();
-        rayHandler.setCombinedMatrix(stage.getCamera().combined.cpy().scale(Constants.PIXELS_IN_METER, Constants.PIXELS_IN_METER, 1f));
 
 
-        planet.dibujarPaisaje(player.getX(), player.getY());
+        //planet.dibujarPaisaje(player.getX(), player.getY());
         stage.act();
         world.step(delta, 8, 3);
         stage.draw();
 
         planet.limpiarActores();
 
-        rayHandler.updateAndRender();
+        if (lights){
+            rayHandler.setCombinedMatrix(stage.getCamera().combined.cpy().scale(Constants.PIXELS_IN_METER, Constants.PIXELS_IN_METER, 1f));
+            rayHandler.updateAndRender();
+        }
+
         rate.render();
 
         if (debugBox2d) {
@@ -114,11 +117,11 @@ public class GameScreen extends Pantalla {
     }
 
     private void checkTeclas(){
-        if (Gdx.input.isKeyPressed(Input.Keys.O)){
+        /*if (Gdx.input.isKeyPressed(Input.Keys.O)){
             light.setDistance(light.getDistance() - 1);
         } else if (Gdx.input.isKeyPressed(Input.Keys.P)){
             light.setDistance(light.getDistance() + 1);
-        }
+        }*/
     }
 
     @Override
