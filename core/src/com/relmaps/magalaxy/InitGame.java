@@ -32,6 +32,11 @@ public class InitGame extends Game {
         manager.load("paisajes/grass/below2.png", Texture.class);
         manager.load("paisajes/grass/below3.png", Texture.class);
         manager.load("paisajes/grass/far.png", Texture.class);
+        manager.load("paisajes/grass/fondo.png", Texture.class);
+
+        for (int i = 1; i <= 7; i++){
+            manager.load("paisajes/grass/grass" + i + ".png", Texture.class);
+        }
 
         manager.finishLoading();
         setScreen(new GameScreen(this));

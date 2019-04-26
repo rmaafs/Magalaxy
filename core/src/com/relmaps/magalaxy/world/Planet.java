@@ -38,10 +38,6 @@ public class Planet {
         }
     }
 
-    public void dibujarPaisaje(float x, float y){
-        paisaje.draw(stage.getBatch(), x, y);
-    }
-
     public float getGravity() {
         return gravity;
     }

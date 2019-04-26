@@ -93,6 +93,9 @@ public class PlayerEntity extends Actor {
         }
     }
 
+    public boolean isMovingLeft(){ return Gdx.input.isKeyPressed(Input.Keys.A); }
+    public boolean isMovingRight(){ return Gdx.input.isKeyPressed(Input.Keys.D); }
+
     public Body getBody() {
         return body;
     }

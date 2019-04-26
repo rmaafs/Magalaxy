@@ -5,14 +5,17 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.entity.PlayerEntity;
+import com.relmaps.magalaxy.paisaje.ParallaxBackground;
 import com.relmaps.magalaxy.world.Planet;
 import com.relmaps.magalaxy.world.PlanetGenerator;
 
@@ -39,6 +42,8 @@ public class GameScreen extends Pantalla {
     private PointLight light;
     private RayHandler rayHandler;
 
+    private ParallaxBackground parallaxBackground;
+
     private int zoom = 2;
 
     public GameScreen(InitGame game) {
@@ -63,6 +68,19 @@ public class GameScreen extends Pantalla {
             light = new PointLight(rayHandler, 5000, Color.BLACK, 5000, 400 * Constants.PIXELS_IN_METER, 150 * Constants.PIXELS_IN_METER);
             light.setSoftnessLength(10f);
         }
+
+        Array<Texture> textures = new Array<Texture>();
+        /*for(int i = 1; i <=2;i++){
+            textures.add(new Texture(Gdx.files.internal("paisajes/grass/below"+i+".png")));
+            textures.get(textures.size-1).setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
+        }*/
+        textures.add(new Texture(Gdx.files.internal("paisajes/grass/far.png")));
+        textures.get(textures.size-1).setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
+
+        //parallaxBackground = new ParallaxBackground(this);
+        //parallaxBackground.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        //parallaxBackground.setSpeed(50f);
+        //stage.addActor(parallaxBackground);
     }
 
     @Override
@@ -93,8 +111,6 @@ public class GameScreen extends Pantalla {
         stage.getCamera().position.x = player.getX();
         stage.getCamera().position.y = player.getY();
 
-
-        //planet.dibujarPaisaje(player.getX(), player.getY());
         stage.act();
         world.step(delta, 8, 3);
         stage.draw();
