@@ -24,8 +24,8 @@ public class PlanetGenerator extends Planet {
         this.stage = stage;
         paisaje = new GrassPaisaje(screen, stage);
 
-        for (int i = 0; i < 20; i++) {
-            float a = Constants.getRandFloat(1f, 10f);
+        for (int i = 0; i < 0; i++) {
+            float a = Constants.getRandFloat(5f, 10f);
             float b = Constants.getRandFloat(0.01f, 0.5f);
             //int repeticiones = Constants.getRand(1, 10);
             //generarFormula(5f, 0.05f, 0f, 1, world, screen);
