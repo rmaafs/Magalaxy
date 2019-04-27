@@ -3,6 +3,7 @@ package com.relmaps.magalaxy.world;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
+import com.relmaps.magalaxy.paisaje.TimerBackground;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class Planet {
 
     protected Stage stage;
     protected GrassPaisaje paisaje;
+    protected TimerBackground sun;
 
     public Planet(double masa, double radio) {
         double G = 6.67 * pow(10, -11);
@@ -36,6 +38,7 @@ public class Planet {
         for (Block block : blocks) {
             block.refresh();
         }
+        //paisaje.limpiarActores();
     }
 
     public float getGravity() {

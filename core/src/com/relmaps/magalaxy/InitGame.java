@@ -41,6 +41,8 @@ public class InitGame extends Game {
         manager.load("paisajes/grass/treeback2.png", Texture.class);
         manager.load("paisajes/grass/treeback3.png", Texture.class);
 
+        manager.load("paisajes/sun.png", Texture.class);
+
         manager.finishLoading();
         setScreen(new GameScreen(this));
     }
