@@ -24,7 +24,7 @@ public class PlanetGenerator extends Planet {
     public Planet generateBlocks(World world, Pantalla screen, Stage stage) {
         this.stage = stage;
         sun = new TimerBackground(screen.getRecurso("paisajes/sun.png"), stage, 3f);
-        //paisaje = new GrassPaisaje(screen, stage);
+        paisaje = new GrassPaisaje(screen, stage);
 
         for (int i = 0; i < 1; i++) {
             float a = Constants.getRandFloat(1f, 10f);

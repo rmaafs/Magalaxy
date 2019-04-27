@@ -49,16 +49,18 @@ public class GameScreen extends Pantalla {
     public GameScreen(InitGame game) {
         super(game);
         stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
-        world = new World(new Vector2(0, -40), true);
-        rate = new FrameRate(world, stage);
         stage.setDebugAll(false);
+        world = new World(new Vector2(0, -40), true);
+        planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
+        rate = new FrameRate(world, stage, planet);
+
 
         if (debugBox2d) {
             renderer = new Box2DDebugRenderer();
             camera = new OrthographicCamera(1024 / 20, 640 / 20);
         }
 
-        planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
+
         world.setGravity(new Vector2(0, -planet.getGravity() * 4));
 
         if (lights){
@@ -88,7 +90,7 @@ public class GameScreen extends Pantalla {
         player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5));
         stage.addActor(player);
         planet.showBlocks(stage);
-        if (lights) light.attachToBody(player.getBody(), 0f, 50f);
+        if (lights) light.attachToBody(player.getBody(), 0f, 60f);
     }
 
     @Override
@@ -118,6 +120,13 @@ public class GameScreen extends Pantalla {
         planet.limpiarActores();
 
         if (lights){
+            float time = planet.getTime();
+            float luz = (float) (1000 * (Math.cos(Math.toRadians(time))));
+            //System.out.println("Luz: " + luz);
+            if (luz > 80f){
+                light.setDistance(luz);
+                //System.out.println("--- PUSE Luz: " + luz);
+            }
             rayHandler.setCombinedMatrix(stage.getCamera().combined.cpy().scale(Constants.PIXELS_IN_METER, Constants.PIXELS_IN_METER, 1f));
             rayHandler.updateAndRender();
         }
@@ -133,11 +142,11 @@ public class GameScreen extends Pantalla {
     }
 
     private void checkTeclas(){
-        /*if (Gdx.input.isKeyPressed(Input.Keys.O)){
-            light.setDistance(light.getDistance() - 1);
+        if (Gdx.input.isKeyPressed(Input.Keys.O)){
+            planet.addTime(-1f);
         } else if (Gdx.input.isKeyPressed(Input.Keys.P)){
-            light.setDistance(light.getDistance() + 1);
-        }*/
+            planet.addTime(1f);
+        }
     }
 
     @Override

@@ -38,7 +38,15 @@ public class Planet {
         for (Block block : blocks) {
             block.refresh();
         }
-        //paisaje.limpiarActores();
+        paisaje.limpiarActores();
+    }
+
+    public float getTime(){
+        return sun.getTime();
+    }
+
+    public void addTime(float time){
+        sun.addTime(time);
     }
 
     public float getGravity() {
