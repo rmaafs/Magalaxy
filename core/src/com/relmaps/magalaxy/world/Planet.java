@@ -1,6 +1,14 @@
 package com.relmaps.magalaxy.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 import com.relmaps.magalaxy.paisaje.TimerBackground;
@@ -51,5 +59,25 @@ public class Planet {
 
     public float getGravity() {
         return gravity;
+    }
+
+    public void addHologram(String msg, Vector2 position){
+        final Label label = new Label("msg", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        label.setColor(Color.RED);
+        label.setPosition(position.x, position.y);
+        /*label.addListener(
+                new InputListener() {
+                    @Override
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        label.setColor(Color.WHITE);
+                    }
+
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                        label.setColor(Color.BLACK);
+                    }
+                }
+        );*/
+        stage.addActor(label);
     }
 }
