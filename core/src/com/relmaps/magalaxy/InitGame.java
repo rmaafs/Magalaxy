@@ -43,6 +43,8 @@ public class InitGame extends Game {
 
         manager.load("paisajes/sun.png", Texture.class);
 
+        manager.load("blocks/hovermouse.png", Texture.class);
+
         manager.finishLoading();
         setScreen(new GameScreen(this));
     }

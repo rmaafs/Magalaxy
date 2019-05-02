@@ -6,10 +6,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relmaps.magalaxy.InitGame;
@@ -28,7 +34,7 @@ import static java.lang.Math.pow;
 public class GameScreen extends Pantalla {
 
     private boolean debugBox2d = false;
-    private boolean lights = true;
+    private boolean lights = false;
 
     private Stage stage;
     private World world;
@@ -70,19 +76,6 @@ public class GameScreen extends Pantalla {
             light = new PointLight(rayHandler, 5000, Color.BLACK, 5000, 400 * Constants.PIXELS_IN_METER, 150 * Constants.PIXELS_IN_METER);
             light.setSoftnessLength(10f);
         }
-
-        Array<Texture> textures = new Array<Texture>();
-        /*for(int i = 1; i <=2;i++){
-            textures.add(new Texture(Gdx.files.internal("paisajes/grass/below"+i+".png")));
-            textures.get(textures.size-1).setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
-        }*/
-        textures.add(new Texture(Gdx.files.internal("paisajes/grass/far.png")));
-        textures.get(textures.size-1).setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
-
-        //parallaxBackground = new ParallaxBackground(this);
-        //parallaxBackground.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        //parallaxBackground.setSpeed(50f);
-        //stage.addActor(parallaxBackground);
     }
 
     @Override
@@ -91,6 +84,7 @@ public class GameScreen extends Pantalla {
         stage.addActor(player);
         planet.showBlocks(stage);
         if (lights) light.attachToBody(player.getBody(), 0f, 60f);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -146,6 +140,10 @@ public class GameScreen extends Pantalla {
             planet.addTime(-1f);
         } else if (Gdx.input.isKeyPressed(Input.Keys.P)){
             planet.addTime(1f);
+        }
+
+        if (Gdx.input.justTouched()) {
+            System.out.println("Cursor: " + Gdx.input.getX() / Constants.PIXELS_IN_METER + ", " + Gdx.input.getY() / Constants.PIXELS_IN_METER);
         }
     }
 
