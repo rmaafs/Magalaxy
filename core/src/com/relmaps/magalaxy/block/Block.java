@@ -1,6 +1,5 @@
 package com.relmaps.magalaxy.block;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.mouse.HoverEvent;
 import com.relmaps.magalaxy.screen.GameScreen;
@@ -44,7 +42,7 @@ public class Block extends Actor {
 
     private float size = 0.25f;
 
-    public Block(BlockType type, World world, Pantalla screen, Vector2 position, String positionPath, Stage stage, Planet planet){
+    public Block(BlockType type, World world, Pantalla screen, Vector2 position, String positionPath, Stage stage, Planet planet) {
         this.type = type;
         texture = getTexture(screen);
         this.world = world;
@@ -62,10 +60,10 @@ public class Block extends Actor {
         activar();
 
         setSize(PIXELS_IN_METER * size * 2, PIXELS_IN_METER * size * 2);
-        setPosition((body.getPosition().x - size) * PIXELS_IN_METER,(body.getPosition().y - size) * PIXELS_IN_METER);
+        setPosition((body.getPosition().x - size) * PIXELS_IN_METER, (body.getPosition().y - size) * PIXELS_IN_METER);
     }
 
-    public void activar(){
+    public void activar() {
         body = world.createBody(def);
         fixture = body.createFixture(shape, 1);
         enableLightShadow();
@@ -74,52 +72,59 @@ public class Block extends Actor {
         this.setVisible(true);
     }
 
-    public void desactivar(){
+    public void desactivar() {
         body.destroyFixture(fixture);
         world.destroyBody(body);
         this.remove();
         this.setVisible(false);
     }
 
-    private void enableLightShadow(){
+    private void enableLightShadow() {
         Filter boxBreakFilter = new Filter();
         boxBreakFilter.categoryBits = 32;
         fixture.setFilterData(boxBreakFilter);
     }
 
-    private void disableColission(){
+    private void disableColission() {
         Filter boxBreakFilter = new Filter();
         boxBreakFilter.categoryBits = 1;
         boxBreakFilter.groupIndex = 2;
-        boxBreakFilter.maskBits = (short)0;
+        boxBreakFilter.maskBits = (short) 0;
         fixture.setFilterData(boxBreakFilter);
     }
 
-    private TextureRegion getTexture(Pantalla screen){
+    private TextureRegion getTexture(Pantalla screen) {
         int r4 = Constants.getRand(0, 4), r;
         int r7 = Constants.getRand(0, 7);
 
-        if (isMineral()){
-            switch (type){
+        if (isMineral()) {
+            switch (type) {
                 case COAL_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/coal_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/coal_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
                 case COPPER_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/copper_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/copper_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
                 case IRON_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/iron_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/iron_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
                 case GOLD_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/gold_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/gold_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
                 case DIAMOND_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/diamond_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/diamond_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
                 case EMERALD_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/emerald_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/emerald_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
                 case RUBY_ORE:
-                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/ruby_ore.png"), r7 * 8, 0, 8, 8);break;
+                    regionSobre = new TextureRegion(screen.getRecurso("blocks/minerals/ruby_ore.png"), r7 * 8, 0, 8, 8);
+                    break;
             }
             return new TextureRegion(screen.getRecurso("blocks/cobblestone.png"), r4 * 8, 0, 8, 8);
         }
 
-        switch (type){
+        switch (type) {
             case DIRT:
                 return new TextureRegion(screen.getRecurso("blocks/dirt.png"), r4 * 8, 0, 8, 8);
             case DIRT_GRASS:
@@ -136,7 +141,7 @@ public class Block extends Actor {
         }
     }
 
-    public boolean isMineral(){
+    public boolean isMineral() {
         return type == BlockType.COAL_ORE || type == BlockType.COPPER_ORE
                 || type == BlockType.IRON_ORE || type == BlockType.GOLD_ORE
                 || type == BlockType.DIAMOND_ORE || type == BlockType.EMERALD_ORE
@@ -147,36 +152,28 @@ public class Block extends Actor {
         this.hoverMouse = hoverMouse;
     }
 
-    public boolean getHoverMouse(){
+    public boolean getHoverMouse() {
         return hoverMouse;
     }
 
-    public void setType(BlockType t){
-        if (t == BlockType.AIR){
+    public void setType(BlockType t) {
+        if (t == BlockType.AIR) {
             desactivar();
             planet.removeBlock(positionPath);
         }
     }
 
-    public Planet getPlanet() {
-        return planet;
-    }
-
-    public String getPositionPath() {
-        return positionPath;
-    }
-
-    public boolean estaEnRangoDeVision(){
+    public boolean estaEnRangoDeVision() {
         return (getX() > GameScreen.player.getX() - (PLAYER_VISIBILITY_X + 1) * PIXELS_IN_METER && getX() < GameScreen.player.getX() + PLAYER_VISIBILITY_X * PIXELS_IN_METER)
                 && (getY() > GameScreen.player.getY() - (PLAYER_VISIBILITY_Y + 1) * PIXELS_IN_METER && getY() < GameScreen.player.getY() + PLAYER_VISIBILITY_Y * PIXELS_IN_METER);
     }
 
-    public void refresh(){
-        if (estaEnRangoDeVision()){
-            if (!isAlive()){
+    public void refresh() {
+        if (estaEnRangoDeVision()) {
+            if (!isAlive()) {
                 activar();
             }
-        } else if (isAlive()){
+        } else if (isAlive()) {
             desactivar();
         }
     }
@@ -191,7 +188,7 @@ public class Block extends Actor {
         if (regionSobre != null) {
             batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
         }
-        if (getHoverMouse()){
+        if (getHoverMouse()) {
             batch.draw(hoverMouseTexture, getX(), getY(), getWidth(), getHeight());
         }
     }

@@ -3,9 +3,7 @@ package com.relmaps.magalaxy;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.relmaps.magalaxy.screen.GameScreen;
-import com.relmaps.magalaxy.screen.WorldScreen;
 
 public class InitGame extends Game {
 
@@ -34,7 +32,7 @@ public class InitGame extends Game {
         manager.load("paisajes/grass/far.png", Texture.class);
         manager.load("paisajes/grass/fondo.png", Texture.class);
         manager.load("paisajes/grass/fondo2.png", Texture.class);
-        for (int i = 1; i <= 7; i++){
+        for (int i = 1; i <= 7; i++) {
             manager.load("paisajes/grass/grass" + i + ".png", Texture.class);
         }
         manager.load("paisajes/grass/treeback1.png", Texture.class);

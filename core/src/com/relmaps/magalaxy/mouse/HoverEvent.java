@@ -11,13 +11,13 @@ public class HoverEvent extends ClickListener {
 
     private Block block;
 
-    public HoverEvent(Block block){
+    public HoverEvent(Block block) {
         this.block = block;
     }
 
     @Override
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-        if (Gdx.input.isTouched()){
+        if (Gdx.input.isTouched()) {
             block.setType(BlockType.AIR);
         } else {
             block.setHoverMouse(true);

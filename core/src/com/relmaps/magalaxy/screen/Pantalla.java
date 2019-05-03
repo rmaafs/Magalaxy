@@ -8,7 +8,7 @@ public abstract class Pantalla implements Screen {
 
     protected InitGame game;
 
-    public Pantalla(InitGame game){
+    public Pantalla(InitGame game) {
         this.game = game;
     }
 

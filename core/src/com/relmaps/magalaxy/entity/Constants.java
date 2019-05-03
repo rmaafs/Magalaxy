@@ -10,11 +10,11 @@ public class Constants {
     public static final int PLAYER_VISIBILITY_X = 16;
     public static final int PLAYER_VISIBILITY_Y = 10;
 
-    public static int getRand(int min, int max){
+    public static int getRand(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
 
-    public static float getRandFloat(float min, float max){
+    public static float getRandFloat(float min, float max) {
         return min + new Random().nextFloat() % (max - min);
     }
 }

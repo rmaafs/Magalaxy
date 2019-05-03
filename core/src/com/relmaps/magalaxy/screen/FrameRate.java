@@ -34,19 +34,12 @@ public class FrameRate implements Disposable {
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    public void resize(int screenWidth, int screenHeight) {
-        cam = new OrthographicCamera(screenWidth, screenHeight);
-        cam.translate(screenWidth / 2, screenHeight / 2);
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
-    }
-
     public void update() {
         long delta = TimeUtils.timeSinceMillis(lastTimeCounted);
         lastTimeCounted = TimeUtils.millis();
 
         sinceChange += delta;
-        if(sinceChange >= 1000) {
+        if (sinceChange >= 1000) {
             sinceChange = 0;
             frameRate = Gdx.graphics.getFramesPerSecond();
         }
@@ -54,13 +47,13 @@ public class FrameRate implements Disposable {
 
     public void render() {
         batch.begin();
-        font.draw(batch, (int)frameRate + " FPS\n" +
-                "JavaHeap: " + (Gdx.app.getJavaHeap() / 1024 / 1024 ) + " MB\n" +
-                "NativeHeap: " + (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\n" +
-                "Blocks: " + planeta.getTotalBlocks() + "\n" +
-                "Bodys: " +  world.getBodyCount() + "\n" +
-                "Actores: " + stage.getActors().size + "\n" +
-                "Tiempo: " + String.format("%.1f", planeta.getTime()),
+        font.draw(batch, (int) frameRate + " FPS\n" +
+                        "JavaHeap: " + (Gdx.app.getJavaHeap() / 1024 / 1024) + " MB\n" +
+                        "NativeHeap: " + (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\n" +
+                        "Blocks: " + planeta.getTotalBlocks() + "\n" +
+                        "Bodys: " + world.getBodyCount() + "\n" +
+                        "Actores: " + stage.getActors().size + "\n" +
+                        "Tiempo: " + String.format("%.1f", planeta.getTime()),
                 3, Gdx.graphics.getHeight() - 3);
         batch.end();
     }

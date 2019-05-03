@@ -1,12 +1,8 @@
 package com.relmaps.magalaxy.world;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.relmaps.magalaxy.block.Block;
@@ -42,18 +38,18 @@ public class Planet {
         }
     }
 
-    public void limpiarActores(){
+    public void limpiarActores() {
         for (Block block : blocks) {
             block.refresh();
         }
         paisaje.limpiarActores();
     }
 
-    public float getTime(){
+    public float getTime() {
         return sun.getTime();
     }
 
-    public void addTime(float time){
+    public void addTime(float time) {
         sun.addTime(time);
     }
 
@@ -61,15 +57,17 @@ public class Planet {
         return gravity;
     }
 
-    public int getTotalBlocks(){ return blocks.size(); }
+    public int getTotalBlocks() {
+        return blocks.size();
+    }
 
-    public void removeBlock(String positionPath){
+    public void removeBlock(String positionPath) {
         Block b = blocksPositions.get(positionPath);
         blocksPositions.remove(positionPath);
         blocks.remove(b);
     }
 
-    public void addHologram(String msg, Vector2 position){
+    public void addHologram(String msg, Vector2 position) {
         final Label label = new Label("msg", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         label.setColor(Color.RED);
         label.setPosition(position.x, position.y);

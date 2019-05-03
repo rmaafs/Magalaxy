@@ -75,7 +75,6 @@ public class PlanetGenerator extends Planet {
             }
             lastY = y;
         }
-        //System.out.println("1 LastY=" + lastY + ", y=" + y);
     }
 
     private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {
