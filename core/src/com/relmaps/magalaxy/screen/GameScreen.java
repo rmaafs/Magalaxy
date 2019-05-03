@@ -34,7 +34,7 @@ import static java.lang.Math.pow;
 public class GameScreen extends Pantalla {
 
     private boolean debugBox2d = false;
-    private boolean lights = false;
+    private boolean lights = true;
 
     private Stage stage;
     private World world;

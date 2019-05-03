@@ -62,7 +62,7 @@ public class Block extends Actor {
         fixture = body.createFixture(shape, 1);
         enableLightShadow();
         stage.addActor(this);
-        this.addListener(new HoverEvent());
+        this.addListener(new HoverEvent(this));
         this.setVisible(true);
     }
 
@@ -170,7 +170,7 @@ public class Block extends Actor {
         if (regionSobre != null) {
             batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
         }
-        if (this.getUserObject() != null && ((Boolean) this.getUserObject()) == true){
+        if (getHoverMouse()){
             batch.draw(hoverMouseTexture, getX(), getY(), getWidth(), getHeight());
         }
     }
