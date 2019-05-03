@@ -24,8 +24,10 @@ import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_X;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_Y;
 
 public class Block extends Actor {
+    public static TextureRegion hoverMouseTexture;
+
     private BlockType type;
-    private TextureRegion texture, hoverMouseTexture;
+    private TextureRegion texture;
     private TextureRegion regionSobre = null;
     private int regionHeightSize = 1;
     private Body body;
@@ -96,8 +98,6 @@ public class Block extends Actor {
     private TextureRegion getTexture(Pantalla screen){
         int r4 = Constants.getRand(0, 4), r;
         int r7 = Constants.getRand(0, 7);
-
-        hoverMouseTexture = new TextureRegion(screen.getRecurso("blocks/hovermouse.png"), 0, 0, 8, 8);
 
         if (isMineral()){
             switch (type){

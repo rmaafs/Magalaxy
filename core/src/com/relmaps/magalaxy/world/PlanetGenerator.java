@@ -1,5 +1,6 @@
 package com.relmaps.magalaxy.world;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,6 +34,8 @@ public class PlanetGenerator extends Planet {
             //generarFormula(5f, 0.05f, 0f, 1, world, screen);
             generarFormula(a, b, 0f, 1, world, screen);
         }
+
+        Block.hoverMouseTexture = new TextureRegion(screen.getRecurso("blocks/hovermouse.png"), 0, 0, 8, 8);
         System.out.println("Total de bloques: " + blocks.size());
 
         //generarFormula(9f, 0.1f, 0f, 1, world, screen);
