@@ -204,7 +204,7 @@ public class Block extends Actor {
 
             if (hoverEvent.isPressed() && !diging) {
                 setDiging(true);
-            } else if (!hoverEvent.isPressed()) {
+            } else if (!hoverEvent.isPressed() && (!hoverMouse && diging)) {
                 setDiging(false);
             }
 

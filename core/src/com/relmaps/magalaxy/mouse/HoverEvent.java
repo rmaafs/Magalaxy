@@ -18,9 +18,8 @@ public class HoverEvent extends ClickListener {
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
         block.setHoverMouse(true);
         if (Gdx.input.isTouched()) {
-            //block.setDiging(true);
+            block.setDiging(true);
         }
-
     }
 
     @Override
