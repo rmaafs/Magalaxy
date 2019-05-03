@@ -39,9 +39,12 @@ public class Planet {
     }
 
     public void limpiarActores() {
+        stage.getBatch().begin();
         for (Block block : blocks) {
             block.refresh();
+            block.drawParticles(stage.getBatch());
         }
+        stage.getBatch().end();
         paisaje.limpiarActores();
     }
 

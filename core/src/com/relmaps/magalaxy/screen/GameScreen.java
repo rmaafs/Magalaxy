@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.entity.PlayerEntity;
-import com.relmaps.magalaxy.paisaje.ParallaxBackground;
 import com.relmaps.magalaxy.world.Planet;
 import com.relmaps.magalaxy.world.PlanetGenerator;
 

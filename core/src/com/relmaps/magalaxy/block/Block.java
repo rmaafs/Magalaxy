@@ -1,7 +1,9 @@
 package com.relmaps.magalaxy.block;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -36,6 +38,7 @@ public class Block extends Actor {
     private BodyDef def;
     private PolygonShape shape;
     private HoverEvent hoverEvent;
+    private ParticleEffect particleDiging;
 
     private Stage stage;
 
@@ -64,6 +67,8 @@ public class Block extends Actor {
         shape.setAsBox(size, size);
 
         hoverEvent = new HoverEvent(this);
+        particleDiging = new ParticleEffect();
+        particleDiging.load(Gdx.files.internal("blocks/particles/dig/dirt.particle"), Gdx.files.internal("blocks/particles/"));
 
         activar();
 
@@ -167,6 +172,7 @@ public class Block extends Actor {
 
     public void setDiging(boolean diging) {
         this.diging = diging;
+        if (diging) particleDiging.start();
     }
 
     public void addDiging() {
@@ -178,7 +184,7 @@ public class Block extends Actor {
             }
         } else {
             if (timeDiging > 0) {
-                timeDiging -= 0.01f;
+                timeDiging -= 0.1f;
             }
         }
     }
@@ -192,6 +198,7 @@ public class Block extends Actor {
 
     public void blockBreak() {
         setType(BlockType.AIR);
+        stage.getBatch().draw(new TextureRegion(texture, 0, 0, 1, 1), getX(), getY(), 1, 1);
     }
 
     public boolean estaEnRangoDeVision() {
@@ -218,6 +225,17 @@ public class Block extends Actor {
 
     public boolean isAlive() {
         return this.isVisible();
+    }
+
+    public void drawParticles(Batch batch) {
+        if (diging || timeDiging > 0) {
+            particleDiging.getEmitters().first().setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
+            particleDiging.update(Gdx.graphics.getDeltaTime());
+            particleDiging.draw(batch);
+            if (particleDiging.isComplete()) {
+                particleDiging.reset();
+            }
+        }
     }
 
     @Override
