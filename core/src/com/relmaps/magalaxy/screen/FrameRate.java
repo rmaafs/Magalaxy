@@ -59,7 +59,9 @@ public class FrameRate implements Disposable {
                 "NativeHeap: " + (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\n" +
                 "Blocks: " + planeta.getTotalBlocks() + "\n" +
                 "Bodys: " +  world.getBodyCount() + "\n" +
-                "Actores: " + stage.getActors().size + "\nTiempo: " + planeta.getTime(), 3, Gdx.graphics.getHeight() - 3);
+                "Actores: " + stage.getActors().size + "\n" +
+                "Tiempo: " + String.format("%.1f", planeta.getTime()),
+                3, Gdx.graphics.getHeight() - 3);
         batch.end();
     }
 
