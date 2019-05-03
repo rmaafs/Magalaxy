@@ -61,6 +61,14 @@ public class Planet {
         return gravity;
     }
 
+    public int getTotalBlocks(){ return blocks.size(); }
+
+    public void removeBlock(String positionPath){
+        Block b = blocksPositions.get(positionPath);
+        blocksPositions.remove(positionPath);
+        blocks.remove(b);
+    }
+
     public void addHologram(String msg, Vector2 position){
         final Label label = new Label("msg", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         label.setColor(Color.RED);

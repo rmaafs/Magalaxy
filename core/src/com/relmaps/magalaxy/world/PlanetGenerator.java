@@ -76,10 +76,10 @@ public class PlanetGenerator extends Planet {
     }
 
     private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {
-        //if (coordX % 80 == 0) type = BlockType.GRAVEL;
-        Block b = new Block(type, world, screen, new Vector2(x, y), stage);
+        String positionPath = coordX + "," + coordY;
+        Block b = new Block(type, world, screen, new Vector2(x, y), positionPath, stage, this);
         blocks.add(b);
-        blocksPositions.put(coordX + "," + coordY, b);
+        blocksPositions.put(positionPath, b);
         //System.out.println("Bloque puesto en " + coordX + ", " + coordY);
     }
 }

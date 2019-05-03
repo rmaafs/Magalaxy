@@ -54,11 +54,12 @@ public class FrameRate implements Disposable {
 
     public void render() {
         batch.begin();
-        font.draw(batch, (int)frameRate + " FPS\nJavaHeap: " +
-                (Gdx.app.getJavaHeap() / 1024 / 1024 ) + " MB\nNativeHeap: " +
-                (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\nBodys: " +
-                world.getBodyCount() + "\nActores: " +
-                stage.getActors().size + "\nTiempo: " + planeta.getTime(), 3, Gdx.graphics.getHeight() - 3);
+        font.draw(batch, (int)frameRate + " FPS\n" +
+                "JavaHeap: " + (Gdx.app.getJavaHeap() / 1024 / 1024 ) + " MB\n" +
+                "NativeHeap: " + (Gdx.app.getNativeHeap() / 1024 / 1024) + " MB\n" +
+                "Blocks: " + planeta.getTotalBlocks() + "\n" +
+                "Bodys: " +  world.getBodyCount() + "\n" +
+                "Actores: " + stage.getActors().size + "\nTiempo: " + planeta.getTime(), 3, Gdx.graphics.getHeight() - 3);
         batch.end();
     }
 

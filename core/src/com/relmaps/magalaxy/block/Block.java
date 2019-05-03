@@ -17,6 +17,7 @@ import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.mouse.HoverEvent;
 import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
+import com.relmaps.magalaxy.world.Planet;
 
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_X;
@@ -34,15 +35,20 @@ public class Block extends Actor {
     private PolygonShape shape;
 
     private Stage stage;
+
+    private Planet planet;
+    private String positionPath;
     private boolean hoverMouse = false;
 
     private float size = 0.25f;
 
-    public Block(BlockType type, World world, Pantalla screen, Vector2 position, Stage stage){
+    public Block(BlockType type, World world, Pantalla screen, Vector2 position, String positionPath, Stage stage, Planet planet){
         this.type = type;
         texture = getTexture(screen);
         this.world = world;
+        this.positionPath = positionPath;
         this.stage = stage;
+        this.planet = planet;
 
         def = new BodyDef();
         def.position.set(position);
@@ -143,6 +149,21 @@ public class Block extends Actor {
 
     public boolean getHoverMouse(){
         return hoverMouse;
+    }
+
+    public void setType(BlockType t){
+        if (t == BlockType.AIR){
+            desactivar();
+            planet.removeBlock(positionPath);
+        }
+    }
+
+    public Planet getPlanet() {
+        return planet;
+    }
+
+    public String getPositionPath() {
+        return positionPath;
     }
 
     public boolean estaEnRangoDeVision(){
