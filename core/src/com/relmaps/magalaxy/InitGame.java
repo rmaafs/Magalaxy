@@ -17,6 +17,7 @@ public class InitGame extends Game {
         manager.load("blocks/grass.png", Texture.class);
         manager.load("blocks/cobblestone.png", Texture.class);
         manager.load("blocks/gravel.png", Texture.class);
+        manager.load("blocks/breaking.png", Texture.class);
 
         manager.load("blocks/minerals/coal_ore.png", Texture.class);
         manager.load("blocks/minerals/copper_ore.png", Texture.class);

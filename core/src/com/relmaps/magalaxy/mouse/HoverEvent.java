@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.relmaps.magalaxy.block.Block;
-import com.relmaps.magalaxy.block.BlockType;
 
 public class HoverEvent extends ClickListener {
 
@@ -17,20 +16,15 @@ public class HoverEvent extends ClickListener {
 
     @Override
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+        block.setHoverMouse(true);
         if (Gdx.input.isTouched()) {
-            block.setType(BlockType.AIR);
-        } else {
-            block.setHoverMouse(true);
+            //block.setDiging(true);
         }
+
     }
 
     @Override
     public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
         block.setHoverMouse(false);
-    }
-
-    @Override
-    public void clicked(InputEvent event, float x, float y) {
-        block.setType(BlockType.AIR);
     }
 }

@@ -1,5 +1,6 @@
 package com.relmaps.magalaxy.block;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +24,7 @@ import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_Y;
 
 public class Block extends Actor {
     public static TextureRegion hoverMouseTexture;
+    public static Texture breakingTexture;
 
     private BlockType type;
     private TextureRegion texture;
@@ -33,12 +35,16 @@ public class Block extends Actor {
     private World world;
     private BodyDef def;
     private PolygonShape shape;
+    private HoverEvent hoverEvent;
 
     private Stage stage;
 
     private Planet planet;
     private String positionPath;
+
     private boolean hoverMouse = false;
+    private boolean diging = false;
+    private float timeDiging = 0.0f;
 
     private float size = 0.25f;
 
@@ -57,6 +63,8 @@ public class Block extends Actor {
         shape = new PolygonShape();
         shape.setAsBox(size, size);
 
+        hoverEvent = new HoverEvent(this);
+
         activar();
 
         setSize(PIXELS_IN_METER * size * 2, PIXELS_IN_METER * size * 2);
@@ -68,7 +76,7 @@ public class Block extends Actor {
         fixture = body.createFixture(shape, 1);
         enableLightShadow();
         stage.addActor(this);
-        this.addListener(new HoverEvent(this));
+        this.addListener(hoverEvent);
         this.setVisible(true);
     }
 
@@ -76,6 +84,7 @@ public class Block extends Actor {
         body.destroyFixture(fixture);
         world.destroyBody(body);
         this.remove();
+        this.removeListener(hoverEvent);
         this.setVisible(false);
     }
 
@@ -156,11 +165,33 @@ public class Block extends Actor {
         return hoverMouse;
     }
 
+    public void setDiging(boolean diging) {
+        this.diging = diging;
+    }
+
+    public void addDiging() {
+        if (diging) {
+            if (timeDiging < 3) {
+                timeDiging += 0.05f;
+            } else {
+                blockBreak();
+            }
+        } else {
+            if (timeDiging > 0) {
+                timeDiging -= 0.01f;
+            }
+        }
+    }
+
     public void setType(BlockType t) {
         if (t == BlockType.AIR) {
             desactivar();
             planet.removeBlock(positionPath);
         }
+    }
+
+    public void blockBreak() {
+        setType(BlockType.AIR);
     }
 
     public boolean estaEnRangoDeVision() {
@@ -170,6 +201,13 @@ public class Block extends Actor {
 
     public void refresh() {
         if (estaEnRangoDeVision()) {
+
+            if (hoverEvent.isPressed() && !diging) {
+                setDiging(true);
+            } else if (!hoverEvent.isPressed()) {
+                setDiging(false);
+            }
+
             if (!isAlive()) {
                 activar();
             }
@@ -184,12 +222,18 @@ public class Block extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        addDiging();
+
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
         if (regionSobre != null) {
             batch.draw(regionSobre, getX(), getY(), getWidth(), getHeight() * regionHeightSize);
         }
         if (getHoverMouse()) {
             batch.draw(hoverMouseTexture, getX(), getY(), getWidth(), getHeight());
+        }
+        if (diging || timeDiging > 0) {
+            int digX = (int) timeDiging;
+            batch.draw(new TextureRegion(breakingTexture, digX * 8, 0, 8, 8), getX(), getY(), getWidth(), getHeight());
         }
     }
 }
