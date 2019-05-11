@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.relmaps.magalaxy.particles.ParticleAnimation;
 import com.relmaps.magalaxy.world.Planet;
 
 public class FrameRate implements Disposable {
@@ -53,7 +54,8 @@ public class FrameRate implements Disposable {
                         "Blocks: " + planeta.getTotalBlocks() + "\n" +
                         "Bodys: " + world.getBodyCount() + "\n" +
                         "Actores: " + stage.getActors().size + "\n" +
-                        "Tiempo: " + String.format("%.1f", planeta.getTime()),
+                        "Tiempo: " + String.format("%.1f", planeta.getTime()) + "\n" +
+                        "Partículas: " + ParticleAnimation.particulas.size(),
                 3, Gdx.graphics.getHeight() - 3);
         batch.end();
     }

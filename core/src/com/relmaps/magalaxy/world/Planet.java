@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 import com.relmaps.magalaxy.paisaje.TimerBackground;
+import com.relmaps.magalaxy.particles.ParticleAnimation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +43,8 @@ public class Planet {
         stage.getBatch().begin();
         for (Block block : blocks) {
             block.refresh();
-            block.drawParticles(stage.getBatch());
         }
+        ParticleAnimation.refreshAnimations(stage.getBatch());
         stage.getBatch().end();
         paisaje.limpiarActores();
     }

@@ -1,9 +1,7 @@
 package com.relmaps.magalaxy.block;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.mouse.HoverEvent;
+import com.relmaps.magalaxy.particles.ParticleAnimation;
 import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
 import com.relmaps.magalaxy.world.Planet;
@@ -38,7 +37,6 @@ public class Block extends Actor {
     private BodyDef def;
     private PolygonShape shape;
     private HoverEvent hoverEvent;
-    private ParticleEffect particleDiging;
 
     private Stage stage;
 
@@ -48,6 +46,7 @@ public class Block extends Actor {
     private boolean hoverMouse = false;
     private boolean diging = false;
     private float timeDiging = 0.0f;
+    private boolean isEffectAnimate = false;
 
     private float size = 0.25f;
 
@@ -67,8 +66,6 @@ public class Block extends Actor {
         shape.setAsBox(size, size);
 
         hoverEvent = new HoverEvent(this);
-        particleDiging = new ParticleEffect();
-        particleDiging.load(Gdx.files.internal("blocks/particles/dig/dirt.particle"), Gdx.files.internal("blocks/particles/"));
 
         activar();
 
@@ -172,11 +169,19 @@ public class Block extends Actor {
 
     public void setDiging(boolean diging) {
         this.diging = diging;
-        if (diging) particleDiging.start();
+    }
+
+    public boolean isEffectAnimate() {
+        return isEffectAnimate;
+    }
+
+    public void setEffectAnimate(boolean effectAnimate) {
+        isEffectAnimate = effectAnimate;
     }
 
     public void addDiging() {
         if (diging) {
+            if (timeDiging > 1) ParticleAnimation.showParticle(this);
             if (timeDiging < 3) {
                 timeDiging += 0.05f;
             } else {
@@ -223,19 +228,12 @@ public class Block extends Actor {
         }
     }
 
-    public boolean isAlive() {
-        return this.isVisible();
+    public BlockType getType() {
+        return type;
     }
 
-    public void drawParticles(Batch batch) {
-        if (diging || timeDiging > 0) {
-            particleDiging.getEmitters().first().setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
-            particleDiging.update(Gdx.graphics.getDeltaTime());
-            particleDiging.draw(batch);
-            if (particleDiging.isComplete()) {
-                particleDiging.reset();
-            }
-        }
+    public boolean isAlive() {
+        return this.isVisible();
     }
 
     @Override
