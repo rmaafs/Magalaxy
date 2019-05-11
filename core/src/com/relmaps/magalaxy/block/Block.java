@@ -228,10 +228,6 @@ public class Block extends Actor {
         }
     }
 
-    public BlockType getType() {
-        return type;
-    }
-
     public boolean isAlive() {
         return this.isVisible();
     }
