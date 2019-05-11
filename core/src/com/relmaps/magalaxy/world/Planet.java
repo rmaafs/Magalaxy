@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.relmaps.magalaxy.block.Block;
+import com.relmaps.magalaxy.block.BlockDrop;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 import com.relmaps.magalaxy.paisaje.TimerBackground;
 import com.relmaps.magalaxy.particles.ParticleAnimation;
@@ -20,6 +21,7 @@ public class Planet {
 
     protected List<Block> blocks = new ArrayList<Block>();
     protected HashMap<String, Block> blocksPositions = new HashMap<String, Block>();
+    protected List<BlockDrop> blockDrops = new ArrayList<BlockDrop>();
     private float gravity;
 
     protected Stage stage;
@@ -44,6 +46,9 @@ public class Planet {
         for (Block block : blocks) {
             block.refresh();
         }
+        for (BlockDrop block : blockDrops) {
+            block.refresh();
+        }
         ParticleAnimation.refreshAnimations(stage.getBatch());
         stage.getBatch().end();
         paisaje.limpiarActores();
@@ -65,10 +70,16 @@ public class Planet {
         return blocks.size();
     }
 
+    public List<BlockDrop> getBlockDrops() { return blockDrops; }
+
     public void removeBlock(String positionPath) {
         Block b = blocksPositions.get(positionPath);
         blocksPositions.remove(positionPath);
         blocks.remove(b);
+    }
+
+    public void addBlockDrop(BlockDrop drop) {
+        blockDrops.add(drop);
     }
 
     public void addHologram(String msg, Vector2 position) {

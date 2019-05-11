@@ -202,6 +202,7 @@ public class Block extends Actor {
     }
 
     public void blockBreak() {
+        planet.addBlockDrop(new BlockDrop(texture, type, world, stage, planet, def.position));
         setType(BlockType.AIR);
         stage.getBatch().draw(new TextureRegion(texture, 0, 0, 1, 1), getX(), getY(), 1, 1);
     }
