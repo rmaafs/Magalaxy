@@ -102,7 +102,7 @@ public class BlockDrop extends Actor {
     }
 
     public void checkIfPlayerPickUp() {
-        double distance = Math.sqrt(Math.pow(((GameScreen.player.getX() + (getWidth() / 2)) - getX()), 2) + Math.pow(((GameScreen.player.getY() + (getHeight() / 2)) - getY()), 2)) * PIXELS_IN_METER / 2;
+        int distance = (int) (Math.sqrt(Math.pow(((GameScreen.player.getX() + (getWidth() / 2)) - getX()), 2) + Math.pow(((GameScreen.player.getY() + (getHeight() / 2)) - getY()), 2)) * PIXELS_IN_METER / 2);
         if (distance < PLAYER_PICKUP_DROP_DISTANCE) {
             body.setLinearVelocity((GameScreen.player.getBody().getPosition().x - body.getPosition().x) * 8, (GameScreen.player.getBody().getPosition().y - body.getPosition().y) * 8);
             if (distance < 2600) {

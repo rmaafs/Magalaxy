@@ -24,7 +24,7 @@ import static java.lang.Math.pow;
 
 public class GameScreen extends Pantalla {
 
-    private boolean debugBox2d = true;
+    private boolean debugBox2d = false;
     private boolean lights = true;
 
     private Stage stage;
@@ -53,7 +53,7 @@ public class GameScreen extends Pantalla {
 
         if (debugBox2d) {
             renderer = new Box2DDebugRenderer();
-            camera = new OrthographicCamera(1024 / 20, 640 / 20);
+            camera = new OrthographicCamera(stage.getWidth() / Constants.PIXELS_IN_METER, stage.getHeight() / Constants.PIXELS_IN_METER);
         }
 
 
@@ -115,9 +115,9 @@ public class GameScreen extends Pantalla {
         rate.render();
 
         if (debugBox2d) {
-            camera.position.x = 10;
-            camera.position.y = 15;
             camera.update();
+            camera.position.x = player.getX() / Constants.PIXELS_IN_METER;
+            camera.position.y = player.getY() / Constants.PIXELS_IN_METER;
             renderer.render(world, camera.combined);
         }
     }
