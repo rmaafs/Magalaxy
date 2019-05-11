@@ -9,7 +9,7 @@ public class Constants {
     public static final float PLAYER_SPEED_SHIFT = 2f;
     public static final int PLAYER_VISIBILITY_X = 16;
     public static final int PLAYER_VISIBILITY_Y = 10;
-    public static final float PLAYER_PICKUP_DROP_DISTANCE = 120;
+    public static final float PLAYER_PICKUP_DROP_DISTANCE = 4212;
     public static final float BLOCK_DROP_JUMP_SPEED = 0.5f;
     public static final float BLOCK_DROP_FLOATING_SPEED = 0.2f;
 

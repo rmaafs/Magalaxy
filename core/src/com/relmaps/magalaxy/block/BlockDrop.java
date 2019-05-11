@@ -1,8 +1,10 @@
 package com.relmaps.magalaxy.block;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -100,10 +102,12 @@ public class BlockDrop extends Actor {
     }
 
     public void checkIfPlayerPickUp() {
-        double distance = Math.sqrt(Math.pow(((GameScreen.player.getX() + (getWidth() / 2)) - getX()), 2) + Math.pow(((GameScreen.player.getY() + (getHeight() / 2)) - getY()), 2));
+        double distance = Math.sqrt(Math.pow(((GameScreen.player.getX() + (getWidth() / 2)) - getX()), 2) + Math.pow(((GameScreen.player.getY() + (getHeight() / 2)) - getY()), 2)) * PIXELS_IN_METER / 2;
         if (distance < PLAYER_PICKUP_DROP_DISTANCE) {
-            System.out.println("PICKUP");
-            pickUp();
+            body.setLinearVelocity((GameScreen.player.getBody().getPosition().x - body.getPosition().x) * 8, (GameScreen.player.getBody().getPosition().y - body.getPosition().y) * 8);
+            if (distance < 2600) {
+                pickUp();
+            }
         }
     }
 
@@ -120,6 +124,7 @@ public class BlockDrop extends Actor {
                 movingFloatYUp = true;
             }
         }
+
         setPosition((body.getPosition().x - size) * PIXELS_IN_METER, (body.getPosition().y - size) * PIXELS_IN_METER + floatY);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
         checkIfPlayerPickUp();
