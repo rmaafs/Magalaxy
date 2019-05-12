@@ -49,7 +49,6 @@ public class GameScreen extends Pantalla {
         stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
         stage.setDebugAll(false);
         inputs.addProcessor(stage);
-        //Gdx.input.setInputProcessor();
         world = new World(new Vector2(0, -40), true);
         planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
         rate = new FrameRate(world, stage, planet);
