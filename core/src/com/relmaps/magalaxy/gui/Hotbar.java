@@ -1,16 +1,24 @@
 package com.relmaps.magalaxy.gui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.relmaps.magalaxy.entity.ItemStack;
 import com.relmaps.magalaxy.mouse.ScrollEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.swing.GroupLayout;
 
 public class Hotbar extends Actor {
 
@@ -22,6 +30,7 @@ public class Hotbar extends Actor {
     private TextureRegion itemSelect;
 
     private HashMap<Integer, ItemStack> items;
+    private List<Label> labels;
     private int currentItem = 0;
 
     private int sizeItemSelect;
@@ -36,6 +45,13 @@ public class Hotbar extends Actor {
         setSize(hotbar.getRegionWidth() * 2, hotbar.getRegionHeight() * 2);
 
         items = new HashMap<Integer, ItemStack>();
+        labels = new ArrayList<Label>();
+        for (int i = 0; i < 9; i++){
+            Label label = new Label("" + i, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+            label.setAlignment(Align.right);
+            label.setPosition(Gdx.graphics.getHeight() + ItemStack.size + (i * 20 * 2) + ItemStack.size - ItemStack.size / 3, Gdx.graphics.getHeight() - ItemStack.size - 17);
+            labels.add(label);
+        }
     }
 
     public void scroll(boolean derecha) {
@@ -82,6 +98,8 @@ public class Hotbar extends Actor {
         for (int i = 0; i < 9; i++){
             if (items.get(i) != null) {
                 batch.draw(items.get(i).getTexture(), Gdx.graphics.getHeight() + ItemStack.size + (i * 20 * 2) - 2, Gdx.graphics.getHeight() - ItemStack.size - 14, ItemStack.size, ItemStack.size);
+                labels.get(i).setText("" + items.get(i).getAmount());
+                if (items.get(i).getAmount() > 1) labels.get(i).draw(batch, 1);
             }
         }
 
