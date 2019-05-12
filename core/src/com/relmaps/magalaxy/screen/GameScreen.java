@@ -139,6 +139,11 @@ public class GameScreen extends Pantalla {
     }
 
     @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+    }
+
+    @Override
     public void dispose() {
         stage.dispose();
         world.dispose();

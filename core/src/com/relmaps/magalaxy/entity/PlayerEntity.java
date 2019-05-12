@@ -72,6 +72,10 @@ public class PlayerEntity extends Actor {
         return hotbar;
     }
 
+    public ItemStack getItemInHand(){
+        return hotbar.getItemInHand();
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x - sizeX) * PIXELS_IN_METER, (body.getPosition().y - sizeY) * PIXELS_IN_METER);

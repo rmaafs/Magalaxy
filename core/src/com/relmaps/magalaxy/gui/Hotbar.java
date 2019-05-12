@@ -90,6 +90,10 @@ public class Hotbar extends Actor {
         return -1;
     }
 
+    public ItemStack getItemInHand(){
+        return items.get(currentItem);
+    }
+
     @Override
     public void draw(Batch b, float parentAlpha) {
         batch.begin();
