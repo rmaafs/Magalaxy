@@ -1,6 +1,7 @@
 package com.relmaps.magalaxy;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.relmaps.magalaxy.screen.GameScreen;
@@ -8,6 +9,7 @@ import com.relmaps.magalaxy.screen.GameScreen;
 public class InitGame extends Game {
 
     private AssetManager manager;
+    public static InputMultiplexer inputs = new InputMultiplexer();
 
     @Override
     public void create() {
@@ -18,6 +20,7 @@ public class InitGame extends Game {
         manager.load("blocks/cobblestone.png", Texture.class);
         manager.load("blocks/gravel.png", Texture.class);
         manager.load("blocks/breaking.png", Texture.class);
+        manager.load("blocks/hovermouse.png", Texture.class);
 
         manager.load("blocks/minerals/coal_ore.png", Texture.class);
         manager.load("blocks/minerals/copper_ore.png", Texture.class);
@@ -42,7 +45,7 @@ public class InitGame extends Game {
 
         manager.load("paisajes/sun.png", Texture.class);
 
-        manager.load("blocks/hovermouse.png", Texture.class);
+        manager.load("gui/hotbar.png", Texture.class);
 
         manager.finishLoading();
         setScreen(new GameScreen(this));

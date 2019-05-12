@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.entity.PlayerEntity;
+import com.relmaps.magalaxy.gui.Hotbar;
 import com.relmaps.magalaxy.world.Planet;
 import com.relmaps.magalaxy.world.PlanetGenerator;
 
@@ -20,6 +21,7 @@ import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
+import static com.relmaps.magalaxy.InitGame.inputs;
 import static java.lang.Math.pow;
 
 public class GameScreen extends Pantalla {
@@ -35,6 +37,7 @@ public class GameScreen extends Pantalla {
     private Planet planet;
 
     private FrameRate rate;
+    private Hotbar hotbar;
 
     private PointLight light;
     private RayHandler rayHandler;
@@ -45,11 +48,13 @@ public class GameScreen extends Pantalla {
         super(game);
         stage = new Stage(new FitViewport(1024 * zoom, 640 * zoom));
         stage.setDebugAll(false);
-        Gdx.input.setInputProcessor(stage);
+        inputs.addProcessor(stage);
+        //Gdx.input.setInputProcessor();
         world = new World(new Vector2(0, -40), true);
         planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
         rate = new FrameRate(world, stage, planet);
-
+        hotbar = new Hotbar(getRecurso("gui/hotbar.png"));
+        Gdx.input.setInputProcessor(inputs);
 
         if (debugBox2d) {
             renderer = new Box2DDebugRenderer();
@@ -112,6 +117,7 @@ public class GameScreen extends Pantalla {
             rayHandler.updateAndRender();
         }
 
+        hotbar.draw(stage.getBatch(), Gdx.graphics.getDeltaTime());
         rate.render();
 
         if (debugBox2d) {
