@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.relmaps.magalaxy.entity.ItemStack;
 import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.world.Planet;
 
@@ -79,6 +80,8 @@ public class BlockDrop extends Actor {
 
     public void pickUp() {
         desactivar();
+        if (type == BlockType.DIRT_GRASS) type = BlockType.DIRT;
+        GameScreen.player.getHotbar().addItem(new ItemStack(texture, type,1));
         planet.getBlockDrops().remove(this);
     }
 

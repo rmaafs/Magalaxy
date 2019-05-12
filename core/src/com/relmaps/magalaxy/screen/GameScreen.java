@@ -37,7 +37,6 @@ public class GameScreen extends Pantalla {
     private Planet planet;
 
     private FrameRate rate;
-    private Hotbar hotbar;
 
     private PointLight light;
     private RayHandler rayHandler;
@@ -52,8 +51,7 @@ public class GameScreen extends Pantalla {
         world = new World(new Vector2(0, -40), true);
         planet = new PlanetGenerator(5.97 * pow(10, 24), 6371).generateBlocks(world, this, stage);
         rate = new FrameRate(world, stage, planet);
-        hotbar = new Hotbar(getRecurso("gui/hotbar.png"));
-        Gdx.input.setInputProcessor(inputs);
+
 
         if (debugBox2d) {
             renderer = new Box2DDebugRenderer();
@@ -74,7 +72,8 @@ public class GameScreen extends Pantalla {
 
     @Override
     public void show() {
-        player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5));
+        player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5), new Hotbar(getRecurso("gui/hotbar.png")));
+        Gdx.input.setInputProcessor(inputs);
         stage.addActor(player);
         planet.showBlocks(stage);
         if (lights) light.attachToBody(player.getBody(), 0f, 60f);
@@ -116,7 +115,7 @@ public class GameScreen extends Pantalla {
             rayHandler.updateAndRender();
         }
 
-        hotbar.draw(stage.getBatch(), Gdx.graphics.getDeltaTime());
+        player.getHotbar().draw(stage.getBatch(), Gdx.graphics.getDeltaTime());
         rate.render();
 
         if (debugBox2d) {

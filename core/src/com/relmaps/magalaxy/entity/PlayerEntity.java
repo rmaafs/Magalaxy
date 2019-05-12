@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.relmaps.magalaxy.gui.Hotbar;
 
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_JUMP_SPEED;
@@ -23,12 +24,14 @@ public class PlayerEntity extends Actor {
     private World world;
     private Body body;
     private Fixture fixture;
+    private Hotbar hotbar;
 
     private float sizeX = 0.5f, sizeY = 1f;
 
-    public PlayerEntity(World world, Texture texture, Vector2 position) {
+    public PlayerEntity(World world, Texture texture, Vector2 position, Hotbar hotbar) {
         this.world = world;
         this.texture = texture;
+        this.hotbar = hotbar;
 
         BodyDef def = new BodyDef();
         def.position.set(position);
@@ -63,6 +66,10 @@ public class PlayerEntity extends Actor {
         boxBreakFilter.groupIndex = value;
         boxBreakFilter.maskBits = value;
         fixture.setFilterData(boxBreakFilter);
+    }
+
+    public Hotbar getHotbar() {
+        return hotbar;
     }
 
     @Override
