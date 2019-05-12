@@ -11,6 +11,9 @@ import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 import com.relmaps.magalaxy.paisaje.TimerBackground;
 import com.relmaps.magalaxy.screen.Pantalla;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlanetGenerator extends Planet {
 
     public PlanetGenerator(double masa, double radio) {
@@ -34,6 +37,7 @@ public class PlanetGenerator extends Planet {
             //generarFormula(5f, 0.05f, 0f, 1, world, screen);
             generarFormula(a, b, 0f, 1, world, screen);
         }
+        ponerBloquesAire(world, screen);
 
         Block.hoverMouseTexture = new TextureRegion(screen.getRecurso("blocks/hovermouse.png"), 0, 0, 8, 8);
         Block.breakingTexture = screen.getRecurso("blocks/breaking.png");
@@ -57,13 +61,14 @@ public class PlanetGenerator extends Planet {
             }
             for (coordY = 0; coordY < BLOCKS_DEPTH; coordY++) {
                 if (coordY == 0) {
+                    //System.out.println("Puesto en: x=" + coordX * 0.5f + ", y=" + (y - (coordY * 0.5f)));
                     type = BlockType.DIRT_GRASS;
                 } else if (coordY > 5) {
                     type = BlockType.COBBLESTONE;
                 } else {
                     type = BlockType.DIRT;
                 }
-                addBlock(type, coordX, coordY, coordX * 0.5f, y - (coordY * 0.5f), world, screen);
+                addBlock(type, coordX * 0.5f, y - (coordY * 0.5f), world, screen);
             }
 
             if (y == 0.0f) {
@@ -79,11 +84,48 @@ public class PlanetGenerator extends Planet {
         }
     }
 
-    private void addBlock(BlockType type, int coordX, int coordY, float x, float y, World world, Pantalla screen) {
-        String positionPath = coordX + "," + coordY;
+    private void addBlock(BlockType type, float x, float y, World world, Pantalla screen) {
+        String positionPath = ((int) (x / 0.5)) + "," + ((int) (y / 0.5));
         Block b = new Block(type, world, screen, new Vector2(x, y), positionPath, stage, this);
         blocks.add(b);
         blocksPositions.put(positionPath, b);
-        //System.out.println("Bloque puesto en " + coordX + ", " + coordY);
+        //System.out.println("Bloque puesto en " + positionPath + " (" + x + ", " + y + ")");
+    }
+
+    private void ponerBloquesAire(World world, Pantalla screen) {
+        List<Block> agregar = new ArrayList<Block>();
+        for (Block b : blocks) {
+            revisarBlock(agregar, b, 1, 0, world, screen);
+            revisarBlock(agregar, b, -1, 0, world, screen);
+            revisarBlock(agregar, b, 0, 1, world, screen);
+            revisarBlock(agregar, b, 0, -1, world, screen);
+
+            revisarBlock(agregar, b, 1, 1, world, screen);
+            revisarBlock(agregar, b, -1, -1, world, screen);
+            revisarBlock(agregar, b, -1, 1, world, screen);
+            revisarBlock(agregar, b, 1, -1, world, screen);
+        }
+
+        for (Block b : agregar) {
+            blocks.add(b);
+        }
+    }
+
+    private void revisarBlock(List<Block> agregar, Block b, int coordx, int coordy, World world, Pantalla screen) {
+        int x = Integer.valueOf(b.getPositionPath().split(",")[0]);
+        int y = Integer.valueOf(b.getPositionPath().split(",")[1]);
+        if (getBlockAt((x + coordx) + "," + (y + coordy)) == null) {
+            Vector2 position = b.getPosition();
+            position.x += coordx * 0.5f;
+            position.y += coordy * 0.5f;
+            //addBlock(BlockType.AIR, (x + coordx), (y + coordy), position.x, position.y, world, screen);
+
+            String positionPath = (x + coordx) + "," + (y + coordy);
+            Block newb = new Block(BlockType.AIR, world, screen, new Vector2(position.x, position.y), positionPath, stage, this);
+            agregar.add(newb);
+            blocksPositions.put(positionPath, newb);
+
+            //Validar que hacer cuando se cree un bloque tipo aire en Block()
+        }
     }
 }

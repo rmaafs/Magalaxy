@@ -12,19 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.relmaps.magalaxy.entity.ItemStack;
+import com.relmaps.magalaxy.mouse.MoveEvent;
 import com.relmaps.magalaxy.mouse.ScrollEvent;
+import com.relmaps.magalaxy.screen.GameScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.GroupLayout;
 
 public class Hotbar extends Actor {
 
     private OrthographicCamera cam;
     private SpriteBatch batch;
     private ScrollEvent scroll;
+    private MoveEvent moveMouse;
 
     private TextureRegion hotbar;
     private TextureRegion itemSelect;
@@ -35,18 +36,22 @@ public class Hotbar extends Actor {
 
     private int sizeItemSelect;
 
-    public Hotbar(Texture texture) {
+    public Hotbar(GameScreen screen) {
+        Texture texture = screen.getRecurso("gui/hotbar.png");
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         scroll = new ScrollEvent(this);
         hotbar = new TextureRegion(texture, 0, 0, 182, 22);
         itemSelect = new TextureRegion(texture, 182, 0, 24, 24);
+
+        moveMouse = new MoveEvent(batch);
+
         sizeItemSelect = 24 * 2;
         setSize(hotbar.getRegionWidth() * 2, hotbar.getRegionHeight() * 2);
 
         items = new HashMap<Integer, ItemStack>();
         labels = new ArrayList<Label>();
-        for (int i = 0; i < 9; i++){
+        for (int i = 0; i < 9; i++) {
             Label label = new Label("" + i, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
             label.setAlignment(Align.right);
             label.setPosition(Gdx.graphics.getHeight() + ItemStack.size + (i * 20 * 2) + ItemStack.size - ItemStack.size / 3, Gdx.graphics.getHeight() - ItemStack.size - 17);
@@ -66,13 +71,13 @@ public class Hotbar extends Actor {
         currentItem = i;
     }
 
-    public void addItem(ItemStack item){
+    public void addItem(ItemStack item) {
         int it = containsItemStack(item);
         if (it != -1) {
             items.get(it).setAmount(items.get(it).getAmount() + item.getAmount());
             System.out.println("Agregue en slot " + it + ") " + item.getMaterial() + ", amount: " + items.get(it).getAmount());
         } else {
-            for (int i = 0; i < 9; i++){
+            for (int i = 0; i < 9; i++) {
                 if (items.get(i) == null) {
                     items.put(i, item);
                     break;
@@ -81,8 +86,18 @@ public class Hotbar extends Actor {
         }
     }
 
-    private int containsItemStack(ItemStack item){
-        for (int i = 0; i < 9; i++){
+    public void removeItem(ItemStack item, int amount) {
+        int it = containsItemStack(item);
+        if (it != -1) {
+            items.get(it).setAmount(items.get(it).getAmount() - amount);
+            if (items.get(it).getAmount() == 0) {
+                items.remove(it);
+            }
+        }
+    }
+
+    private int containsItemStack(ItemStack item) {
+        for (int i = 0; i < 9; i++) {
             if (items.get(i) != null && items.get(i).getMaterial() == item.getMaterial()) {
                 return i;
             }
@@ -90,7 +105,7 @@ public class Hotbar extends Actor {
         return -1;
     }
 
-    public ItemStack getItemInHand(){
+    public ItemStack getItemInHand() {
         return items.get(currentItem);
     }
 
@@ -99,7 +114,7 @@ public class Hotbar extends Actor {
         batch.begin();
         batch.draw(hotbar, Gdx.graphics.getHeight() + 15, Gdx.graphics.getHeight() - getHeight() - 5, getWidth(), getHeight());
 
-        for (int i = 0; i < 9; i++){
+        for (int i = 0; i < 9; i++) {
             if (items.get(i) != null) {
                 batch.draw(items.get(i).getTexture(), Gdx.graphics.getHeight() + ItemStack.size + (i * 20 * 2) - 2, Gdx.graphics.getHeight() - ItemStack.size - 14, ItemStack.size, ItemStack.size);
                 labels.get(i).setText("" + items.get(i).getAmount());
@@ -108,6 +123,7 @@ public class Hotbar extends Actor {
         }
 
         batch.draw(itemSelect, Gdx.graphics.getHeight() + 13 + (currentItem * 20 * 2), Gdx.graphics.getHeight() - sizeItemSelect - 3, sizeItemSelect, sizeItemSelect);
+        moveMouse.draw();
         batch.end();
     }
 }

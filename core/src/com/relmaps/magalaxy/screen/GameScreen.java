@@ -72,7 +72,7 @@ public class GameScreen extends Pantalla {
 
     @Override
     public void show() {
-        player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5), new Hotbar(getRecurso("gui/hotbar.png")));
+        player = new PlayerEntity(world, getRecurso("player/man.png"), new Vector2(1, 5), new Hotbar(this));
         Gdx.input.setInputProcessor(inputs);
         stage.addActor(player);
         planet.showBlocks(stage);

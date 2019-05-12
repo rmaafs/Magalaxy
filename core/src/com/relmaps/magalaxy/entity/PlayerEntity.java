@@ -33,6 +33,7 @@ public class PlayerEntity extends Actor {
         this.texture = texture;
         this.hotbar = hotbar;
 
+
         BodyDef def = new BodyDef();
         def.position.set(position);
         def.type = BodyDef.BodyType.DynamicBody;

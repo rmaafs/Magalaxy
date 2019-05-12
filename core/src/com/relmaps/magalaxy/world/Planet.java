@@ -72,11 +72,58 @@ public class Planet {
 
     public List<BlockDrop> getBlockDrops() { return blockDrops; }
 
+    public Block getBlockAt(String path) {
+        return blocksPositions.get(path);
+    }
+
     public void removeBlock(String positionPath) {
         Block b = blocksPositions.get(positionPath);
         blocksPositions.remove(positionPath);
         blocks.remove(b);
     }
+
+    /*public void removeAirBlock(String positionPath) {
+        int x = Integer.valueOf(positionPath.split(",")[0]);
+        int y = Integer.valueOf(positionPath.split(",")[1]);
+
+        if (checkBlocksAround(x - 1, y)){
+            removeBlock((x - 1) + ","+ (y));
+        }
+        if (checkBlocksAround(x + 1, y)){
+            removeBlock((x + 1) + ","+ (y));
+        }
+        if (checkBlocksAround(x, y - 1)){
+            removeBlock((x) + ","+ (y - 1));
+        }
+        if (checkBlocksAround(x, y + 1)){
+            removeBlock((x) + ","+ (y + 1));
+        }
+
+        if (checkBlocksAround(x - 1, y + 1)){
+            //getBlockAt((x - 1) + "," + (y + 1)).setType(BlockType.EMERALD_ORE, "blocks/minerals/emerald_ore.png");
+            getBlockAt((x - 1) + "," + (y + 1)).deleteBlock();
+        }
+    }
+
+    public boolean checkBlocksAround(int x, int y){
+        if (getBlockAt((x - 1) + "," + (y)) != null && getBlockAt((x - 1) + "," + (y)).getType() == BlockType.AIR){
+            System.out.println("1");
+            getBlockAt((x - 1) + "," + (y)).deleteBlock();
+        }
+        if (getBlockAt((x + 1) + "," + (y)) != null && getBlockAt((x + 1) + "," + (y)).getType() == BlockType.AIR){
+            System.out.println("2");
+            getBlockAt((x + 1) + "," + (y)).deleteBlock();
+        }
+        if (getBlockAt((x) + "," + (y - 1)) != null && getBlockAt((x) + "," + (y - 1)).getType() == BlockType.AIR){
+            System.out.println("3");
+            getBlockAt((x) + "," + (y - 1)).deleteBlock();
+        }
+        if (getBlockAt((x) + "," + (y + 1)) != null && getBlockAt((x) + "," + (y + 1)).getType() == BlockType.AIR){
+            System.out.println("4");
+            getBlockAt((x) + "," + (y + 1)).deleteBlock();
+        }
+        return true;
+    }*/
 
     public void addBlockDrop(BlockDrop drop) {
         blockDrops.add(drop);

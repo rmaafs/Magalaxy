@@ -1,5 +1,6 @@
 package com.relmaps.magalaxy.block;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -80,6 +81,7 @@ public class Block extends Actor {
         stage.addActor(this);
         this.addListener(hoverEvent);
         this.setVisible(true);
+        disableColission();
     }
 
     public void desactivar() {
@@ -97,11 +99,13 @@ public class Block extends Actor {
     }
 
     private void disableColission() {
-        Filter boxBreakFilter = new Filter();
-        boxBreakFilter.categoryBits = 1;
-        boxBreakFilter.groupIndex = 2;
-        boxBreakFilter.maskBits = (short) 0;
-        fixture.setFilterData(boxBreakFilter);
+        if (type == BlockType.AIR) {
+            Filter boxBreakFilter = new Filter();
+            boxBreakFilter.categoryBits = 1;
+            boxBreakFilter.groupIndex = 2;
+            boxBreakFilter.maskBits = (short) 0;
+            fixture.setFilterData(boxBreakFilter);
+        }
     }
 
     private TextureRegion getTexture(Pantalla screen) {
@@ -179,6 +183,18 @@ public class Block extends Actor {
         isEffectAnimate = effectAnimate;
     }
 
+    public String getPositionPath() {
+        return positionPath;
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(def.position);
+    }
+
+    public BlockType getType() {
+        return type;
+    }
+
     public void addDiging() {
         if (diging) {
             if (timeDiging > 1) ParticleAnimation.showParticle(this);
@@ -196,12 +212,28 @@ public class Block extends Actor {
 
     public void setType(BlockType t) {
         if (t == BlockType.AIR) {
+            disableColission();
             desactivar();
-            planet.removeBlock(positionPath);
+            this.addListener(hoverEvent);
+            //planet.removeBlock(positionPath);
+            //planet.removeAirBlock(positionPath);
         }
+        type = t;
+    }
+
+    public void deleteBlock() {
+        desactivar();
+        planet.removeBlock(positionPath);
+    }
+
+    public void setType(BlockType t, TextureRegion path) {
+        type = t;
+        this.texture = path;
+        activar();
     }
 
     public void blockBreak() {
+        timeDiging = 0.0f;
         planet.addBlockDrop(new BlockDrop(texture, type, world, stage, planet, def.position));
         setType(BlockType.AIR);
         stage.getBatch().draw(new TextureRegion(texture, 0, 0, 1, 1), getX(), getY(), 1, 1);
@@ -235,6 +267,14 @@ public class Block extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if (type == BlockType.AIR && getHoverMouse() && GameScreen.player.getItemInHand() != null) {
+            Color c = batch.getColor();
+            batch.setColor(c.r, c.g, c.b, 0.6f);
+            batch.draw(GameScreen.player.getItemInHand().getTexture(), getX(), getY(), getWidth(), getHeight());
+            batch.setColor(c);
+            return;
+        }
+        if (type == BlockType.AIR) return;
         addDiging();
 
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
