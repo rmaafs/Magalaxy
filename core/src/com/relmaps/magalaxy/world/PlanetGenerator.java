@@ -23,14 +23,14 @@ public class PlanetGenerator extends Planet {
     private int coordX = 0, coordY;
     private float y, lastY = 0;
 
-    private int BLOCKS_DEPTH = 50;
+    private int BLOCKS_DEPTH = 10;
 
     public Planet generateBlocks(World world, Pantalla screen, Stage stage) {
         this.stage = stage;
         sun = new TimerBackground(screen.getRecurso("paisajes/sun.png"), stage, 3f);
         paisaje = new GrassPaisaje(screen, stage);
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             float a = Constants.getRandFloat(1f, 10f);
             float b = Constants.getRandFloat(0.01f, 0.5f);
             //int repeticiones = Constants.getRand(1, 10);

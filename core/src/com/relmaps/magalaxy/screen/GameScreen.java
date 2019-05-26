@@ -134,7 +134,7 @@ public class GameScreen extends Pantalla {
         }
 
         if (Gdx.input.justTouched()) {
-            //System.out.println("Cursor: " + Gdx.input.getX() / Constants.PIXELS_IN_METER + ", " + Gdx.input.getY() / Constants.PIXELS_IN_METER);
+            System.out.println("Cursor: " + Gdx.input.getX() / Constants.PIXELS_IN_METER + " (" + Gdx.input.getX() + "), " + Gdx.input.getY() / Constants.PIXELS_IN_METER);
         }
     }
 

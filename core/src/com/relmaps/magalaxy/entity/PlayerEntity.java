@@ -96,6 +96,9 @@ public class PlayerEntity extends Actor {
         } else {
             textReg = new TextureRegion(texture, 0, 0, 19, 32);
         }
+        if (isMirandoIzquierda()) {
+            textReg.flip(true, false);
+        }
         batch.draw(textReg, getX(), getY(), getWidth(), getHeight());
     }
 
@@ -106,16 +109,13 @@ public class PlayerEntity extends Actor {
             body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             body.setLinearVelocity(shift ? PLAYER_SPEED_SHIFT : PLAYER_SPEED, body.getLinearVelocity().y);
-            walking = true;
-            countWalking += 0.15f;
+            setWalking(true, false);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             body.setLinearVelocity(shift ? -PLAYER_SPEED_SHIFT : -PLAYER_SPEED, body.getLinearVelocity().y);
-            walking = true;
-            countWalking -= 0.15f;
+            setWalking(true, true);
         } else {
             body.setLinearVelocity(body.getLinearVelocity().x / 2, body.getLinearVelocity().y);
-            walking = false;
-            countWalking = 0;
+            setWalking(false, false);
         }
     }
 
@@ -125,6 +125,31 @@ public class PlayerEntity extends Actor {
 
     public boolean isWalking() {
         return walking;
+    }
+
+    public void setWalking(boolean walking, boolean movingIzq) {
+        if (walking) {
+            if (isMirandoIzquierda()) {
+                if (movingIzq) {
+                    countWalking += 0.15f;
+                } else {
+                    countWalking -= 0.15f;
+                }
+            } else {
+                if (movingIzq) {
+                    countWalking -= 0.15f;
+                } else {
+                    countWalking += 0.15f;
+                }
+            }
+        } else {
+            countWalking = 0;
+        }
+        this.walking = walking;
+    }
+
+    public boolean isMirandoIzquierda() {
+        return Gdx.input.getX() < 527;
     }
 
     public void detach() {
