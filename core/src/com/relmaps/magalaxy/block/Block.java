@@ -27,6 +27,7 @@ import static com.relmaps.magalaxy.entity.Constants.PLAYER_VISIBILITY_Y;
 public class Block extends Actor {
     public static TextureRegion hoverMouseTexture;
     public static Texture breakingTexture;
+    public static String userData = "block";
 
     private BlockType type;
     private TextureRegion texture;
@@ -81,10 +82,12 @@ public class Block extends Actor {
         stage.addActor(this);
         this.addListener(hoverEvent);
         this.setVisible(true);
+        body.setUserData("block");
         disableColission();
     }
 
     public void desactivar() {
+        body.setUserData("");
         body.destroyFixture(fixture);
         world.destroyBody(body);
         this.remove();

@@ -29,7 +29,7 @@ public class PlayerEntity extends Actor {
     private Hotbar hotbar;
 
     private float sizeX = 0.5f, sizeY = 1f, countWalking = 0f;
-    private boolean walking = false;
+    private boolean walking = false, jumping = true, onFloor = false;
 
     public PlayerEntity(World world, Texture texture, Vector2 position, Hotbar hotbar) {
         this.world = world;
@@ -60,6 +60,7 @@ public class PlayerEntity extends Actor {
 
         //disableLightShadow();
 
+        body.setUserData("player");
         setSize(PIXELS_IN_METER * sizeX * 2, PIXELS_IN_METER * sizeY * 2);
     }
 
@@ -83,7 +84,9 @@ public class PlayerEntity extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x - sizeX) * PIXELS_IN_METER, (body.getPosition().y - sizeY) * PIXELS_IN_METER);
-        if (isWalking()) {
+        if (jumping) {
+            textReg = new TextureRegion(texture, 0, 32, 19, 32);
+        } else if (isWalking()) {
             int frame = (int) countWalking;
             if (frame > 7) {
                 frame = 1;
@@ -107,6 +110,8 @@ public class PlayerEntity extends Actor {
         boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
+            setOnFloor(false);
+            jumping = true;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             body.setLinearVelocity(shift ? PLAYER_SPEED_SHIFT : PLAYER_SPEED, body.getLinearVelocity().y);
             setWalking(true, false);
@@ -117,6 +122,8 @@ public class PlayerEntity extends Actor {
             body.setLinearVelocity(body.getLinearVelocity().x / 2, body.getLinearVelocity().y);
             setWalking(false, false);
         }
+
+
     }
 
     public Body getBody() {
@@ -150,6 +157,11 @@ public class PlayerEntity extends Actor {
 
     public boolean isMirandoIzquierda() {
         return Gdx.input.getX() < 527;
+    }
+
+    public void setOnFloor(boolean onFloor) {
+        if (onFloor) jumping = false;
+        this.onFloor = onFloor;
     }
 
     public void detach() {

@@ -2,6 +2,11 @@ package com.relmaps.magalaxy.world;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.block.Block;
@@ -9,6 +14,7 @@ import com.relmaps.magalaxy.block.BlockType;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
 import com.relmaps.magalaxy.paisaje.TimerBackground;
+import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
 
 import java.util.ArrayList;
@@ -46,6 +52,36 @@ public class PlanetGenerator extends Planet {
 
         //generarFormula(9f, 0.1f, 0f, 1, world, screen);
         //generarFormula(2f, 0.2f, 0f, 3, world, screen);
+
+        world.setContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact contact) {
+
+                Body fixtureA = contact.getFixtureA().getBody();
+                Body fixtureB = contact.getFixtureB().getBody();
+
+                if ((fixtureA.getUserData() == Block.userData && fixtureB.getUserData() == GameScreen.player.getBody().getUserData()) || (fixtureA.getUserData() == GameScreen.player.getBody().getUserData() && fixtureB.getUserData() == Block.userData)) {
+                    //System.out.println("COLISIONANDO.");
+                    GameScreen.player.setOnFloor(true);
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
 
         return this;
     }
