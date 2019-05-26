@@ -45,15 +45,14 @@ public class PlayerEntity extends Actor {
         body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        Vector2[] vec = new Vector2[7];
+        Vector2[] vec = new Vector2[6];
 
-        vec[0] = new Vector2(0f, -sizeY);
-        vec[1] = new Vector2(-0.3f, -sizeY);
-        vec[2] = new Vector2(0.3f, -sizeY);
-        vec[3] = new Vector2(-sizeX, -sizeY / 2);
-        vec[4] = new Vector2(-sizeX, sizeY);
-        vec[5] = new Vector2(sizeX, sizeY);
-        vec[6] = new Vector2(sizeX, -sizeY / 2);
+        vec[0] = new Vector2(-0.02f, -sizeY);
+        vec[1] = new Vector2(0.02f, -sizeY);
+        vec[2] = new Vector2(-sizeX + 0.05f, -sizeY / 2 + 0.3f);
+        vec[3] = new Vector2(-sizeX + 0.05f, sizeY);
+        vec[4] = new Vector2(sizeX - 0.05f, sizeY);
+        vec[5] = new Vector2(sizeX - 0.05f, -sizeY / 2 + 0.3f);
 
         shape.set(vec);
         fixture = body.createFixture(shape, 1);
