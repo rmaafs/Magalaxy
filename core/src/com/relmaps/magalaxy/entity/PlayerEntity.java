@@ -28,9 +28,9 @@ public class PlayerEntity extends Actor {
     private Fixture fixture;
     private Hotbar hotbar;
 
-    private float sizeX = 0.5f, sizeY = 1f, countWalking = 0f, countJumping = 0f;
+    private float sizeX = 0.5f, sizeY = 1f, countWalking = 0f, countJumping = 1f;
     private float lastY = 0;//Variable para ver la última vez que estaba en Y (Sirve para ver si está callendo)
-    private boolean walking = false, jumping = true, onFloor = false, falling = true;
+    private boolean walking = false, jumping = true, onFloor = false, falling = true, shift = false;
 
     public PlayerEntity(World world, Texture texture, Vector2 position, Hotbar hotbar) {
         this.world = world;
@@ -94,20 +94,20 @@ public class PlayerEntity extends Actor {
         if (jumping) {
             if (!falling && getY() < lastY) {//Si el jugador está empezando a caer...
                 falling = true;
-                countJumping = 5f;
+                countJumping = 7f;
             }
 
             countJumping += 0.3f;
             int frame = (int) countJumping;
             if (falling) {
                 if (frame > 8) {
-                    frame = 5;
-                    countJumping = 5f;
+                    frame = 7;
+                    countJumping = 7f;
                 }
             } else {
-                if (frame > 5) {
-                    frame = 5;
-                    countJumping = 5f;
+                if (frame > 7) {
+                    frame = 7;
+                    countJumping = 7f;
                 }
             }
 
@@ -115,14 +115,14 @@ public class PlayerEntity extends Actor {
             lastY = getY();
         } else if (isWalking()) {
             int frame = (int) countWalking;
-            if (frame > 7) {
+            if (shift && frame > 8 || !shift && frame > 7) {
                 frame = 1;
                 countWalking = 1f;
             } else if (frame < 1) {
+                countWalking = shift ? 9f : 8f;
                 frame = 8;
-                countWalking = 8f;
             }
-            textReg = new TextureRegion(texture, frame * 19, 0, 19, 32);
+            textReg = new TextureRegion(texture, frame * 19, shift ? 64 : 0, 19, 32);
         } else {
             textReg = new TextureRegion(texture, 0, 0, 19, 32);
         }
@@ -134,7 +134,7 @@ public class PlayerEntity extends Actor {
 
     @Override
     public void act(float delta) {
-        boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
             jump();
@@ -188,7 +188,7 @@ public class PlayerEntity extends Actor {
     public void setOnFloor(boolean onFloor) {
         if (onFloor) {
             jumping = false;
-            countJumping = 0f;
+            countJumping = 1f;
             falling = false;
         }
         this.onFloor = onFloor;
