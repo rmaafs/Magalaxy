@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.relmaps.magalaxy.entity.ItemStack;
-import com.relmaps.magalaxy.mouse.MoveEvent;
 import com.relmaps.magalaxy.mouse.ScrollEvent;
 import com.relmaps.magalaxy.screen.GameScreen;
 
@@ -25,7 +24,6 @@ public class Hotbar extends Actor {
     private OrthographicCamera cam;
     private SpriteBatch batch;
     private ScrollEvent scroll;
-    private MoveEvent moveMouse;
 
     private TextureRegion hotbar;
     private TextureRegion itemSelect;
@@ -43,8 +41,6 @@ public class Hotbar extends Actor {
         scroll = new ScrollEvent(this);
         hotbar = new TextureRegion(texture, 0, 0, 182, 22);
         itemSelect = new TextureRegion(texture, 182, 0, 24, 24);
-
-        moveMouse = new MoveEvent(batch);
 
         sizeItemSelect = 24 * 2;
         setSize(hotbar.getRegionWidth() * 2, hotbar.getRegionHeight() * 2);
@@ -123,7 +119,6 @@ public class Hotbar extends Actor {
         }
 
         batch.draw(itemSelect, Gdx.graphics.getHeight() + 13 + (currentItem * 20 * 2), Gdx.graphics.getHeight() - sizeItemSelect - 3, sizeItemSelect, sizeItemSelect);
-        moveMouse.draw();
         batch.end();
     }
 }
