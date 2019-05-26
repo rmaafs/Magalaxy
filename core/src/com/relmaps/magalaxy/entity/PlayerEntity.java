@@ -28,8 +28,9 @@ public class PlayerEntity extends Actor {
     private Fixture fixture;
     private Hotbar hotbar;
 
-    private float sizeX = 0.5f, sizeY = 1f, countWalking = 0f;
-    private boolean walking = false, jumping = true, onFloor = false;
+    private float sizeX = 0.5f, sizeY = 1f, countWalking = 0f, countJumping = 0f;
+    private float lastY = 0;//Variable para ver la última vez que estaba en Y (Sirve para ver si está callendo)
+    private boolean walking = false, jumping = true, onFloor = false, falling = true;
 
     public PlayerEntity(World world, Texture texture, Vector2 position, Hotbar hotbar) {
         this.world = world;
@@ -73,6 +74,12 @@ public class PlayerEntity extends Actor {
         fixture.setFilterData(boxBreakFilter);
     }
 
+    private void jump() {
+        setOnFloor(false);
+        jumping = true;
+        falling = false;
+    }
+
     public Hotbar getHotbar() {
         return hotbar;
     }
@@ -85,7 +92,27 @@ public class PlayerEntity extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x - sizeX) * PIXELS_IN_METER, (body.getPosition().y - sizeY) * PIXELS_IN_METER);
         if (jumping) {
-            textReg = new TextureRegion(texture, 0, 32, 19, 32);
+            if (!falling && getY() < lastY) {//Si el jugador está empezando a caer...
+                falling = true;
+                countJumping = 5f;
+            }
+
+            countJumping += 0.3f;
+            int frame = (int) countJumping;
+            if (falling) {
+                if (frame > 8) {
+                    frame = 5;
+                    countJumping = 5f;
+                }
+            } else {
+                if (frame > 5) {
+                    frame = 5;
+                    countJumping = 5f;
+                }
+            }
+
+            textReg = new TextureRegion(texture, frame * 19, 32, 19, 32);
+            lastY = getY();
         } else if (isWalking()) {
             int frame = (int) countWalking;
             if (frame > 7) {
@@ -110,8 +137,7 @@ public class PlayerEntity extends Actor {
         boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
-            setOnFloor(false);
-            jumping = true;
+            jump();
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             body.setLinearVelocity(shift ? PLAYER_SPEED_SHIFT : PLAYER_SPEED, body.getLinearVelocity().y);
             setWalking(true, false);
@@ -160,7 +186,11 @@ public class PlayerEntity extends Actor {
     }
 
     public void setOnFloor(boolean onFloor) {
-        if (onFloor) jumping = false;
+        if (onFloor) {
+            jumping = false;
+            countJumping = 0f;
+            falling = false;
+        }
         this.onFloor = onFloor;
     }
 
