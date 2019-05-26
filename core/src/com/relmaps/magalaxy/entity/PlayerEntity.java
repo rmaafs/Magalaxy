@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,12 +22,14 @@ import static com.relmaps.magalaxy.entity.Constants.PLAYER_SPEED_SHIFT;
 
 public class PlayerEntity extends Actor {
     private Texture texture;
+    private TextureRegion textReg;
     private World world;
     private Body body;
     private Fixture fixture;
     private Hotbar hotbar;
 
-    private float sizeX = 0.5f, sizeY = 1f;
+    private float sizeX = 0.5f, sizeY = 1f, countWalking = 0f;
+    private boolean walking = false;
 
     public PlayerEntity(World world, Texture texture, Vector2 position, Hotbar hotbar) {
         this.world = world;
@@ -73,14 +76,27 @@ public class PlayerEntity extends Actor {
         return hotbar;
     }
 
-    public ItemStack getItemInHand(){
+    public ItemStack getItemInHand() {
         return hotbar.getItemInHand();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x - sizeX) * PIXELS_IN_METER, (body.getPosition().y - sizeY) * PIXELS_IN_METER);
-        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+        if (isWalking()) {
+            int frame = (int) countWalking;
+            if (frame > 7) {
+                frame = 1;
+                countWalking = 1f;
+            } else if (frame < 1) {
+                frame = 8;
+                countWalking = 8f;
+            }
+            textReg = new TextureRegion(texture, frame * 19, 0, 19, 32);
+        } else {
+            textReg = new TextureRegion(texture, 0, 0, 19, 32);
+        }
+        batch.draw(textReg, getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
@@ -90,15 +106,25 @@ public class PlayerEntity extends Actor {
             body.applyLinearImpulse(0, PLAYER_JUMP_SPEED, body.getPosition().x, body.getPosition().y, true);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             body.setLinearVelocity(shift ? PLAYER_SPEED_SHIFT : PLAYER_SPEED, body.getLinearVelocity().y);
+            walking = true;
+            countWalking += 0.15f;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             body.setLinearVelocity(shift ? -PLAYER_SPEED_SHIFT : -PLAYER_SPEED, body.getLinearVelocity().y);
+            walking = true;
+            countWalking -= 0.15f;
         } else {
             body.setLinearVelocity(body.getLinearVelocity().x / 2, body.getLinearVelocity().y);
+            walking = false;
+            countWalking = 0;
         }
     }
 
     public Body getBody() {
         return body;
+    }
+
+    public boolean isWalking() {
+        return walking;
     }
 
     public void detach() {

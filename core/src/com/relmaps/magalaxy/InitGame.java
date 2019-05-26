@@ -14,6 +14,9 @@ public class InitGame extends Game {
     @Override
     public void create() {
         manager = new AssetManager();
+
+        manager.load("player/skin.png", Texture.class);
+
         manager.load("player/man.png", Texture.class);
         manager.load("blocks/dirt.png", Texture.class);
         manager.load("blocks/grass.png", Texture.class);
