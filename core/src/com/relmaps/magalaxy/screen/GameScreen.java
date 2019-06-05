@@ -72,7 +72,7 @@ public class GameScreen extends Pantalla {
 
     @Override
     public void show() {
-        player = new PlayerEntity(world, getRecurso("player/skin.png"), new Vector2(1, 5), new Hotbar(this));
+        player = new PlayerEntity(world, getRecurso("player/skin.png"), new Vector2(15, 5), new Hotbar(this));
         Gdx.input.setInputProcessor(inputs);
         stage.addActor(player);
         planet.showBlocks(stage);
@@ -95,9 +95,6 @@ public class GameScreen extends Pantalla {
 
         stage.getCamera().update();
         rate.update();
-
-        stage.getCamera().position.x = player.getX();
-        stage.getCamera().position.y = player.getY();
 
         stage.act();
         world.step(delta, 8, 3);
@@ -124,6 +121,9 @@ public class GameScreen extends Pantalla {
             camera.position.y = player.getY() / Constants.PIXELS_IN_METER;
             renderer.render(world, camera.combined);
         }
+
+        stage.getCamera().position.x = player.getX();
+        stage.getCamera().position.y = player.getY();
     }
 
     private void checkTeclas() {

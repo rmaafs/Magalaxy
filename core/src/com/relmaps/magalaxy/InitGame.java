@@ -50,6 +50,8 @@ public class InitGame extends Game {
 
         manager.load("gui/hotbar.png", Texture.class);
 
+        manager.load("paisajes/star.png", Texture.class);
+
         manager.finishLoading();
         setScreen(new GameScreen(this));
     }

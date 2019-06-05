@@ -2,23 +2,12 @@ package com.relmaps.magalaxy.paisaje;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.screen.GameScreen;
 
-public class TimerBackground extends Actor {
-
-    private Stage stage;
-    protected Texture texture;
-    protected float size;
-    protected float time = 0f;
-    protected float orbit = 800f;
-
-    public TimerBackground(Texture texture, Stage stage, float size) {
-        this.texture = texture;
-        this.stage = stage;
-        this.size = size;
-        stage.addActor(this);
+public class SunBackground extends TimerBackground {
+    public SunBackground(Texture texture, Stage stage, float size) {
+        super(texture, stage, size);
     }
 
     @Override
@@ -30,13 +19,5 @@ public class TimerBackground extends Actor {
         }
 
         batch.draw(texture, (GameScreen.player.getX() - (texture.getWidth() * 1.5f)) + (orbit * ((float) Math.sin(Math.toRadians(time)))), (GameScreen.player.getY()) + (orbit / 2 * ((float) Math.cos(Math.toRadians(time)))), texture.getHeight() * size, texture.getHeight() * size);
-    }
-
-    public void addTime(float time) {
-        this.time += time;
-    }
-
-    public float getTime() {
-        return time;
     }
 }
