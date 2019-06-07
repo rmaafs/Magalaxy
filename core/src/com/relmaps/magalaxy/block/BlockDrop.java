@@ -1,10 +1,8 @@
 package com.relmaps.magalaxy.block;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -14,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.relmaps.magalaxy.entity.ItemStack;
 import com.relmaps.magalaxy.screen.GameScreen;
+import com.relmaps.magalaxy.sounds.SoundType;
 import com.relmaps.magalaxy.world.Planet;
 
+import static com.relmaps.magalaxy.InitGame.sound;
 import static com.relmaps.magalaxy.entity.Constants.BLOCK_DROP_FLOATING_SPEED;
 import static com.relmaps.magalaxy.entity.Constants.BLOCK_DROP_JUMP_SPEED;
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
@@ -83,6 +83,7 @@ public class BlockDrop extends Actor {
         if (type == BlockType.DIRT_GRASS) type = BlockType.DIRT;
         GameScreen.player.getHotbar().addItem(new ItemStack(texture, type,1));
         planet.getBlockDrops().remove(this);
+        sound.play(SoundType.ITEM_PICKUP);
     }
 
     public boolean isAlive() {

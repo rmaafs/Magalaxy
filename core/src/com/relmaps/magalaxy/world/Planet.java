@@ -1,6 +1,7 @@
 package com.relmaps.magalaxy.world;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.block.BlockDrop;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
+import com.relmaps.magalaxy.paisaje.StarsBackground;
 import com.relmaps.magalaxy.paisaje.TimerBackground;
 import com.relmaps.magalaxy.particles.ParticleAnimation;
 
@@ -26,7 +28,8 @@ public class Planet {
 
     protected Stage stage;
     protected GrassPaisaje paisaje;
-    protected TimerBackground sun, stars;
+    protected TimerBackground sun;
+    protected StarsBackground stars;
 
     public Planet(double masa, double radio) {
         double G = 6.67 * pow(10, -11);
@@ -127,6 +130,10 @@ public class Planet {
 
     public void addBlockDrop(BlockDrop drop) {
         blockDrops.add(drop);
+    }
+
+    public void dibujarEstrellas(Batch b) {
+        stars.dibujar(b);
     }
 
     public void addHologram(String msg, Vector2 position) {

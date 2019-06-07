@@ -10,6 +10,7 @@ public abstract class Pantalla implements Screen {
 
     public Pantalla(InitGame game) {
         this.game = game;
+
     }
 
     public Texture getRecurso(String path) {

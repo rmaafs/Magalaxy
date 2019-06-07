@@ -14,6 +14,7 @@ import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.entity.PlayerEntity;
 import com.relmaps.magalaxy.gui.Hotbar;
+import com.relmaps.magalaxy.sounds.SoundType;
 import com.relmaps.magalaxy.world.Planet;
 import com.relmaps.magalaxy.world.PlanetGenerator;
 
@@ -22,6 +23,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import static com.relmaps.magalaxy.InitGame.inputs;
+import static com.relmaps.magalaxy.InitGame.sound;
 import static java.lang.Math.pow;
 
 public class GameScreen extends Pantalla {
@@ -66,7 +68,7 @@ public class GameScreen extends Pantalla {
             Light.setContactFilter((short) 32, (short) 32, (short) 32);
 
             light = new PointLight(rayHandler, 5000, Color.BLACK, 5000, 400 * Constants.PIXELS_IN_METER, 150 * Constants.PIXELS_IN_METER);
-            light.setSoftnessLength(10f);
+            light.setSoftnessLength(5f);
         }
     }
 
@@ -77,6 +79,7 @@ public class GameScreen extends Pantalla {
         stage.addActor(player);
         planet.showBlocks(stage);
         if (lights) light.attachToBody(player.getBody(), 0f, 60f);
+        sound.play(SoundType.MIRA, 0.3f);
     }
 
     @Override
@@ -98,6 +101,11 @@ public class GameScreen extends Pantalla {
 
         stage.act();
         world.step(delta, 8, 3);
+
+        /*stage.getBatch().begin();
+        planet.dibujarEstrellas(stage.getBatch());
+        stage.getBatch().end();*/
+
         stage.draw();
 
         planet.limpiarActores();
@@ -108,11 +116,13 @@ public class GameScreen extends Pantalla {
             if (luz > 80f) {
                 light.setDistance(luz);
             }
-            rayHandler.setCombinedMatrix(stage.getCamera().combined.cpy().scale(Constants.PIXELS_IN_METER, Constants.PIXELS_IN_METER, 1f));
+            rayHandler.setCombinedMatrix(stage.getCamera().combined.cpy().scale(Constants.PIXELS_IN_METER, Constants.PIXELS_IN_METER, 5f));
             rayHandler.updateAndRender();
         }
 
         player.getHotbar().draw(stage.getBatch(), Gdx.graphics.getDeltaTime());
+
+
         rate.render();
 
         if (debugBox2d) {

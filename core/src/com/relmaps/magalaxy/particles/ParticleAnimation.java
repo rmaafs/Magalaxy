@@ -2,9 +2,12 @@ package com.relmaps.magalaxy.particles;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.relmaps.magalaxy.block.Block;
+import com.relmaps.magalaxy.sounds.SoundType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.relmaps.magalaxy.InitGame.sound;
 
 public class ParticleAnimation {
 
@@ -12,6 +15,7 @@ public class ParticleAnimation {
 
     public static void showParticle(Block block) {
         if (!block.isEffectAnimate()) {
+            sound.play(SoundType.BLOCK_HIT);
             particulas.add(new ParticlePacket(block));
         }
     }

@@ -5,11 +5,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.relmaps.magalaxy.screen.GameScreen;
+import com.relmaps.magalaxy.sounds.SoundEffect;
 
 public class InitGame extends Game {
 
     private AssetManager manager;
     public static InputMultiplexer inputs = new InputMultiplexer();
+    public static SoundEffect sound;
 
     @Override
     public void create() {
@@ -53,6 +55,7 @@ public class InitGame extends Game {
         manager.load("paisajes/star.png", Texture.class);
 
         manager.finishLoading();
+        sound = new SoundEffect();
         setScreen(new GameScreen(this));
     }
 

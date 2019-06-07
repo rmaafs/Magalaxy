@@ -14,7 +14,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.relmaps.magalaxy.gui.Hotbar;
+import com.relmaps.magalaxy.sounds.SoundType;
 
+import static com.relmaps.magalaxy.InitGame.sound;
 import static com.relmaps.magalaxy.entity.Constants.PIXELS_IN_METER;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_JUMP_SPEED;
 import static com.relmaps.magalaxy.entity.Constants.PLAYER_SPEED;
@@ -117,9 +119,11 @@ public class PlayerEntity extends Actor {
             if (shift && frame > 8 || !shift && frame > 7) {
                 frame = 1;
                 countWalking = 1f;
+                sound.play(SoundType.STEP);
             } else if (frame < 1) {
                 countWalking = shift ? 9f : 8f;
                 frame = 8;
+                sound.play(SoundType.STEP);
             }
             textReg = new TextureRegion(texture, frame * 19, shift ? 64 : 0, 19, 32);
         } else {
