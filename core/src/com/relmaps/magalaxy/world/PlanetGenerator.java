@@ -13,7 +13,8 @@ import com.relmaps.magalaxy.block.Block;
 import com.relmaps.magalaxy.block.BlockType;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.paisaje.GrassPaisaje;
-import com.relmaps.magalaxy.paisaje.TimerBackground;
+import com.relmaps.magalaxy.paisaje.StarsBackground;
+import com.relmaps.magalaxy.paisaje.SunBackground;
 import com.relmaps.magalaxy.screen.GameScreen;
 import com.relmaps.magalaxy.screen.Pantalla;
 
@@ -33,7 +34,8 @@ public class PlanetGenerator extends Planet {
 
     public Planet generateBlocks(World world, Pantalla screen, Stage stage) {
         this.stage = stage;
-        sun = new TimerBackground(screen.getRecurso("paisajes/sun.png"), stage, 3f);
+        stars = new StarsBackground(screen.getRecurso("paisajes/star.png"), stage, 3f);
+        sun = new SunBackground(screen.getRecurso("paisajes/sun.png"), stage, 3f);
         paisaje = new GrassPaisaje(screen, stage);
 
         for (int i = 0; i < 10; i++) {

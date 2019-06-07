@@ -26,7 +26,7 @@ public class Planet {
 
     protected Stage stage;
     protected GrassPaisaje paisaje;
-    protected TimerBackground sun;
+    protected TimerBackground sun, stars;
 
     public Planet(double masa, double radio) {
         double G = 6.67 * pow(10, -11);
