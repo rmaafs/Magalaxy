@@ -30,4 +30,8 @@ public class SoundEffect {
     public void play(SoundType type, float volumen) {
         sounds.get(type).play(volumen);
     }
+
+    public void dispose() {
+        sounds.clear();
+    }
 }

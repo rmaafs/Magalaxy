@@ -79,4 +79,11 @@ public class IntroScreen extends Pantalla {
             game.startGame();
         }
     }
+
+    @Override
+    public void dispose() {
+        manager.clear();
+        t.dispose();
+        sound.dispose();
+    }
 }
