@@ -105,6 +105,10 @@ public class Hotbar extends Actor {
         return items.get(currentItem);
     }
 
+    public ItemStack getItemInSlot(int slot) {
+        return items.get(slot);
+    }
+
     @Override
     public void draw(Batch b, float parentAlpha) {
         batch.begin();

@@ -15,11 +15,13 @@ public class InitGame extends Game {
 
     @Override
     public void create() {
+        sound = new SoundEffect();
         //setScreen(new IntroScreen(this));
         startGame();
     }
 
     public void startGame() {
+
         manager = new AssetManager();
 
         manager.load("player/skin.png", Texture.class);
@@ -88,7 +90,6 @@ public class InitGame extends Game {
         manager.load("texto/t7.png", Texture.class);
 
         manager.finishLoading();
-        sound = new SoundEffect();
         setScreen(new menuInicio(this));
     }
 

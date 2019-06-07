@@ -11,16 +11,30 @@ public class SoundEffect {
 
     public SoundEffect() {
         sounds = new HashMap<SoundType, Sound>();
-        sounds.put(SoundType.MIRA, Gdx.audio.newSound(Gdx.files.internal("sounds/mira.ogg")));
-        sounds.put(SoundType.STEP, Gdx.audio.newSound(Gdx.files.internal("sounds/step_dirt.wav")));
-        sounds.put(SoundType.ITEM_PICKUP, Gdx.audio.newSound(Gdx.files.internal("sounds/item_pickup.wav")));
-        sounds.put(SoundType.BLOCK_HIT, Gdx.audio.newSound(Gdx.files.internal("sounds/block_hit.wav")));
-        sounds.put(SoundType.BLOCK_PLACE, Gdx.audio.newSound(Gdx.files.internal("sounds/block_place.wav")));
+        loadSound(SoundType.MIRA, "sounds/mira.ogg");
+        loadSound(SoundType.STEP, "sounds/step_dirt.wav");
+        loadSound(SoundType.ITEM_PICKUP, "sounds/item_pickup.wav");
+        loadSound(SoundType.BLOCK_HIT, "sounds/block_hit.wav");
+        loadSound(SoundType.BLOCK_PLACE, "sounds/block_place.wav");
     }
 
     public SoundEffect(boolean intro) {
         sounds = new HashMap<SoundType, Sound>();
-        sounds.put(SoundType.INTRO, Gdx.audio.newSound(Gdx.files.internal("intro/intro.mp3")));
+        loadSound(SoundType.INTRO, "intro/intro.mp3");
+    }
+
+    public void loadSound(final SoundType type, final String path) {
+        /*new Thread(){
+            @Override
+            public void run() {*/
+        sounds.put(type, Gdx.audio.newSound(Gdx.files.internal(path)));
+                /*try {
+                    finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }.start();*/
     }
 
     public void play(SoundType type) {

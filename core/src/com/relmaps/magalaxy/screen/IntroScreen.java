@@ -71,7 +71,7 @@ public class IntroScreen extends Pantalla {
         }
 
         try {
-            t = (Texture) manager.get("intro/img/img" + num + ".png");
+            t = manager.get("intro/img/img" + num + ".png");
             batch.begin();
             batch.draw(t, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             batch.end();

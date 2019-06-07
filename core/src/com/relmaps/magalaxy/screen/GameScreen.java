@@ -14,6 +14,7 @@ import com.relmaps.magalaxy.InitGame;
 import com.relmaps.magalaxy.entity.Constants;
 import com.relmaps.magalaxy.entity.PlayerEntity;
 import com.relmaps.magalaxy.gui.Hotbar;
+import com.relmaps.magalaxy.saves.SaveState;
 import com.relmaps.magalaxy.sounds.SoundType;
 import com.relmaps.magalaxy.world.Planet;
 import com.relmaps.magalaxy.world.PlanetGenerator;
@@ -42,6 +43,7 @@ public class GameScreen extends Pantalla {
 
     private PointLight light;
     private RayHandler rayHandler;
+    private SaveState saveState;
 
     private int zoom = 2;
 
@@ -63,6 +65,8 @@ public class GameScreen extends Pantalla {
 
         world.setGravity(new Vector2(0, -planet.getGravity() * 4));
 
+        saveState = new SaveState();
+
         if (lights) {
             rayHandler = new RayHandler(world);
             Light.setContactFilter((short) 32, (short) 32, (short) 32);
@@ -80,6 +84,9 @@ public class GameScreen extends Pantalla {
         planet.showBlocks(stage);
         if (lights) light.attachToBody(player.getBody(), 0f, 60f);
         sound.play(SoundType.MIRA, 0.3f);
+        if (saveState.existConfig()) {
+            saveState.load(this);
+        }
     }
 
     @Override
@@ -141,6 +148,8 @@ public class GameScreen extends Pantalla {
             planet.addTime(-1f);
         } else if (Gdx.input.isKeyPressed(Input.Keys.P)) {
             planet.addTime(1f);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+            saveState.save();
         }
 
         if (Gdx.input.justTouched()) {
@@ -155,6 +164,7 @@ public class GameScreen extends Pantalla {
 
     @Override
     public void dispose() {
+        saveState.save();
         stage.dispose();
         world.dispose();
         if (debugBox2d) renderer.dispose();
