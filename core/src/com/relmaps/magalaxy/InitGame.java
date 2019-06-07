@@ -4,8 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.relmaps.magalaxy.screen.GameScreen;
-import com.relmaps.magalaxy.screen.IntroScreen;
+import com.relmaps.magalaxy.menu.menuInicio;
 import com.relmaps.magalaxy.sounds.SoundEffect;
 
 public class InitGame extends Game {
@@ -16,7 +15,8 @@ public class InitGame extends Game {
 
     @Override
     public void create() {
-        setScreen(new IntroScreen(this));
+        //setScreen(new IntroScreen(this));
+        startGame();
     }
 
     public void startGame() {
@@ -56,10 +56,40 @@ public class InitGame extends Game {
         manager.load("paisajes/sun.png", Texture.class);
 
         manager.load("gui/hotbar.png", Texture.class);
+        manager.load("paisajes/star.png", Texture.class);
+
+        manager.load("menus/fondo.png", Texture.class);
+        manager.load("menus/fondo1.png", Texture.class);
+        manager.load("menus/jugar.png", Texture.class);
+        manager.load("menus/instruciones.png", Texture.class);
+        manager.load("menus/salir.png", Texture.class);
+        manager.load("menus/regresar.png", Texture.class);
+        manager.load("menus/1.png", Texture.class);
+        manager.load("menus/2.png", Texture.class);
+        manager.load("menus/3.png", Texture.class);
+        manager.load("menus/4.png", Texture.class);
+        manager.load("menus/5.png", Texture.class);
+        manager.load("menus/6.png", Texture.class);
+        manager.load("menus/7.png", Texture.class);
+        manager.load("menus/8.png", Texture.class);
+        manager.load("menus/9.png", Texture.class);
+        manager.load("menus/clic.png", Texture.class);
+        manager.load("menus/+.png", Texture.class);
+        manager.load("menus/a.png", Texture.class);
+        manager.load("menus/s.png", Texture.class);
+        manager.load("menus/espacio.png", Texture.class);
+        manager.load("menus/shift.png", Texture.class);
+        manager.load("texto/t1.png", Texture.class);
+        manager.load("texto/t2.png", Texture.class);
+        manager.load("texto/t3.png", Texture.class);
+        manager.load("texto/t4.png", Texture.class);
+        manager.load("texto/t5.png", Texture.class);
+        manager.load("texto/t6.png", Texture.class);
+        manager.load("texto/t7.png", Texture.class);
 
         manager.finishLoading();
         sound = new SoundEffect();
-        setScreen(new GameScreen(this));
+        setScreen(new menuInicio(this));
     }
 
     public AssetManager getManager() {
