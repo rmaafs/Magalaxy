@@ -97,7 +97,7 @@ public class subMenu extends Pantalla {
         stage.getBatch().draw(_8, 1300 - 90, 1200 - 20, 98, 92);
         stage.getBatch().draw(_9, 1400 - 90, 1200 - 20, 98, 92);
         stage.getBatch().draw(t3, 950 - 90, 1050, 233, 97);
-
+//
         stage.getBatch().draw(this.a, 200, 900, 99, 89);
         stage.getBatch().draw(this.s, 1700, 900, 97, 94);
         stage.getBatch().draw(t7, 200 - 80, 830, 307, 64);
