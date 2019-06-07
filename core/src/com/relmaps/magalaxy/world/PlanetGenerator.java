@@ -142,6 +142,10 @@ public class PlanetGenerator extends Planet {
             revisarBlock(agregar, b, -1, -1, world, screen);
             revisarBlock(agregar, b, -1, 1, world, screen);
             revisarBlock(agregar, b, 1, -1, world, screen);
+
+            for (int i = 2; i <= 15; i++) {
+                revisarBlock(agregar, b, 0, i, world, screen);
+            }
         }
 
         for (Block b : agregar) {

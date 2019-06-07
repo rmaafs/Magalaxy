@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.relmaps.magalaxy.menu.menuInicio;
+import com.relmaps.magalaxy.screen.IntroScreen;
 import com.relmaps.magalaxy.sounds.SoundEffect;
 
 public class InitGame extends Game {
@@ -16,8 +17,8 @@ public class InitGame extends Game {
     @Override
     public void create() {
         sound = new SoundEffect();
-        //setScreen(new IntroScreen(this));
-        startGame();
+        setScreen(new IntroScreen(this));
+        //startGame();
     }
 
     public void startGame() {

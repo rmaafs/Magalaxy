@@ -24,17 +24,17 @@ public class SoundEffect {
     }
 
     public void loadSound(final SoundType type, final String path) {
-        /*new Thread(){
+        new Thread() {
             @Override
-            public void run() {*/
-        sounds.put(type, Gdx.audio.newSound(Gdx.files.internal(path)));
-                /*try {
+            public void run() {
+                sounds.put(type, Gdx.audio.newSound(Gdx.files.internal(path)));
+                try {
                     finalize();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
             }
-        }.start();*/
+        }.start();
     }
 
     public void play(SoundType type) {
