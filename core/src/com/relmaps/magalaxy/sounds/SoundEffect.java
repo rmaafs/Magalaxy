@@ -18,6 +18,11 @@ public class SoundEffect {
         sounds.put(SoundType.BLOCK_PLACE, Gdx.audio.newSound(Gdx.files.internal("sounds/block_place.wav")));
     }
 
+    public SoundEffect(boolean intro) {
+        sounds = new HashMap<SoundType, Sound>();
+        sounds.put(SoundType.INTRO, Gdx.audio.newSound(Gdx.files.internal("intro/intro.mp3")));
+    }
+
     public void play(SoundType type) {
         sounds.get(type).play();
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.relmaps.magalaxy.screen.GameScreen;
+import com.relmaps.magalaxy.screen.IntroScreen;
 import com.relmaps.magalaxy.sounds.SoundEffect;
 
 public class InitGame extends Game {
@@ -15,6 +16,10 @@ public class InitGame extends Game {
 
     @Override
     public void create() {
+        setScreen(new IntroScreen(this));
+    }
+
+    public void startGame() {
         manager = new AssetManager();
 
         manager.load("player/skin.png", Texture.class);
