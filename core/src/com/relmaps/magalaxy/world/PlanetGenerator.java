@@ -101,6 +101,20 @@ public class PlanetGenerator extends Planet {
                 if (coordY == 0) {
                     //System.out.println("Puesto en: x=" + coordX * 0.5f + ", y=" + (y - (coordY * 0.5f)));
                     type = BlockType.DIRT_GRASS;
+                } else if (coordY > 11) {
+                    type = BlockType.RUBY_ORE;
+                } else if (coordY > 11) {
+                    type = BlockType.IRON_ORE;
+                } else if (coordY > 10) {
+                    type = BlockType.GOLD_ORE;
+                } else if (coordY > 9) {
+                    type = BlockType.EMERALD_ORE;
+                } else if (coordY > 8) {
+                    type = BlockType.DIAMOND_ORE;
+                } else if (coordY > 7) {
+                    type = BlockType.COPPER_ORE;
+                } else if (coordY > 6) {
+                    type = BlockType.COAL_ORE;
                 } else if (coordY > 5) {
                     type = BlockType.COBBLESTONE;
                 } else {
