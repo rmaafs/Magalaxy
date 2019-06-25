@@ -17,8 +17,8 @@ public class InitGame extends Game {
     @Override
     public void create() {
         sound = new SoundEffect();
-        //setScreen(new IntroScreen(this));
-        startGame();
+        setScreen(new IntroScreen(this));
+        //startGame();
     }
 
     public void startGame() {
